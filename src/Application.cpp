@@ -6,6 +6,8 @@
 #include "systems/Freemove.h"
 
 #include <glm/gtc/random.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/common.hpp>
 
 Application::Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]):
 	System(screenSize, title, argc, argv),
@@ -28,10 +30,21 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	kult::add<Component::Position>(cube) = {
 		glm::vec3(0, 0, 0),
 		glm::quat(),
-		glm::vec3(30, 30, 1)
+		glm::vec3(1, .1, .1)
 	};
 	kult::add<Component::Render>(cube) = {
 		meshManager.GetAsset("cube.obj"),
+		textureManager.GetAsset("wood.raw"),
+		true
+	};
+
+	kult::add<Component::Position>(floor) = {
+		glm::vec3(0, 0, 0),
+		glm::quat(),
+		glm::vec3(30, 30, 1)
+	};
+	kult::add<Component::Render>(floor) = {
+		meshManager.GetAsset("quad.obj"),
 		textureManager.GetAsset("wood.raw"),
 		true
 	};
@@ -61,6 +74,7 @@ Application::~Application()
 	camera.purge();
 	cube.purge();
 	tree.purge();
+	floor.purge();
 }
 
 void Application::HandleEvent(SDL_Event& event)
@@ -82,7 +96,37 @@ void Application::Update(float deltaTime)
 {
 	Systems::UpdateFreemove();
 	Systems::Physics(deltaTime);
+
+	glm::f32 g = 0.55191502449;
+	glm::vec2 f(10, 14);
+	glm::vec3 points[] =
+	{
+		{ 0 * f.x, 1 * f.y, 3 },
+		{ g * f.x, 1 * f.y, 3 },
+		{ 1 * f.x, g * f.y, 3 },
+		{ 1 * f.x, 0 * f.y, 3 },
+		{ 1 * f.x, 0 * f.y, 3 },
+		{ 1 * f.x, -g * f.y, 3 },
+		{ g * f.x, -1 * f.y, 3 },
+		{ 0 * f.x, -1 * f.y, 3 },
+		{ 0 * f.x, -1 * f.y, 3 },
+		{ -g * f.x, -1 * f.y, 3 },
+		{ -1 * f.x, -g * f.y, 3 },
+		{ -1 * f.x, 0 * f.y, 3 },
+		{ -1 * f.x, 0 * f.y, 3 },
+		{ -1 * f.x, g * f.y, 3 },
+		{ -g * f.x, 1 * f.y, 3 },
+		{ 0 * f.x, 1 * f.y, 3 },
+	};
+	glm::f32 ticks = SDL_GetTicks() % 100000 / 100000.0f;
+	glm::vec3 pos0 = GetBezierPoint<16>(points, ticks);
+	glm::vec3 pos1 = GetBezierPoint<16>(points, ticks+0.00001f);
+
+	auto af = pos1 - pos0;
+	kult::get<Component::Position>(cube).pos = pos0;
+	kult::get<Component::Position>(cube).rot = glm::rotation(glm::vec3(1, 0, 0), normalize(af));
 }
+
 
 void Application::Render()
 {
