@@ -4,10 +4,10 @@
 
 namespace AssetManager
 {
-	Config::Config()
+	Config::Config(std::istream* buffer, const std::string& filename)
 	{
+		Load(buffer, filename);
 	}
-
 
 	Config::~Config()
 	{

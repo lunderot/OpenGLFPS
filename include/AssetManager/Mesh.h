@@ -6,11 +6,9 @@
 #include <gl/glew.h>
 #include <glm/glm.hpp>
 
-#include "Asset.h"
-
 namespace AssetManager
 {
-	class Mesh : public Asset
+	class Mesh
 	{
 	public:
 		struct Vertex
@@ -26,7 +24,7 @@ namespace AssetManager
 
 		void LoadMesh(std::istream* buffer, std::vector<Vertex>& out);
 	public:
-		Mesh();
+		Mesh(std::istream* buffer, const std::string& filename);
 		~Mesh();
 		GLuint GetVBO() const;
 		GLuint GetVAO() const;

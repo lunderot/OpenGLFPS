@@ -36,9 +36,6 @@
     <ClCompile Include="src\systems\Freemove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AssetManager\Asset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\AssetManager\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\AssetManager\AssetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AssetManager\Asset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\AssetManager\Texture.h">

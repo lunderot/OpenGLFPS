@@ -2,8 +2,6 @@
 #include <string>
 #include <map>
 
-#include "Asset.h"
-
 namespace AssetManager
 {
 
@@ -12,7 +10,7 @@ namespace AssetManager
 	{
 	private:
 		std::string assetPath;
-		std::map<std::string, Asset*> assets;
+		std::map<std::string, T*> assets;
 	public:
 		AssetManager(const std::string& assetPath);
 		~AssetManager();
@@ -50,7 +48,6 @@ namespace AssetManager
 			std::ifstream inputFile(assetPath + name, std::ios::binary);
 			if (inputFile.good())
 			{
-				asset = new T();
 				std::size_t position = name.find_last_of('/');
 				std::string filename;
 				if (position == std::string::npos)
@@ -61,9 +58,7 @@ namespace AssetManager
 				{
 					filename = name.substr(position + 1);
 				}
-				asset->Load(&inputFile, filename);
-
-				assets[name] = asset;
+				asset = assets[name] = new T(&inputFile, filename);
 			}
 			else
 			{
