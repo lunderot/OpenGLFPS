@@ -2,8 +2,9 @@
 
 namespace AssetManager
 {
-	Mesh::Mesh()
+	Mesh::Mesh(std::istream* buffer, const std::string& filename)
 	{
+		Load(buffer, filename);
 	}
 
 	Mesh::~Mesh()

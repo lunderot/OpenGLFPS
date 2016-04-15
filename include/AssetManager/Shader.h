@@ -7,11 +7,9 @@
 #include <string>
 #include <fstream>
 
-#include "Asset.h"
-
 namespace AssetManager
 {
-	class Shader : public Asset
+	class Shader
 	{
 	private:
 		static const unsigned int NUM_SHADERS = 2;
@@ -25,7 +23,7 @@ namespace AssetManager
 		void CheckProgramError(GLuint program, GLuint flag, const std::string& errorMessage);
 
 	public:
-		Shader();
+		Shader(std::istream* buffer, const std::string& filename);
 		~Shader();
 
 		bool IsInUse() const;

@@ -2,9 +2,9 @@
 
 namespace AssetManager
 {
-	Texture::Texture() :
-		Asset()
+	Texture::Texture(std::istream* buffer, const std::string& filename)
 	{
+		Load(buffer, filename);
 	}
 
 	Texture::~Texture()
@@ -25,7 +25,7 @@ namespace AssetManager
 
 		//Get the filesize in bytes
 		buffer->seekg(0, buffer->end);
-		size = buffer->tellg();
+		size = static_cast<size_t>(buffer->tellg());
 		buffer->seekg(0, buffer->beg);
 
 		//Assume texture is always square and RGBA format

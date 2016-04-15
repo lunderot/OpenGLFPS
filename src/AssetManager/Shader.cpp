@@ -5,9 +5,9 @@
 
 namespace AssetManager
 {
-	Shader::Shader()
+	Shader::Shader(std::istream* buffer, const std::string& filename)
 	{
-		
+		Load(buffer, filename);
 	}
 
 	Shader::~Shader()

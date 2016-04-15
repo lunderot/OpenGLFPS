@@ -6,16 +6,14 @@
 #include <gl/glew.h>
 #include <glm/glm.hpp>
 
-#include "Asset.h"
-
 namespace AssetManager
 {
-	class Texture : public Asset
+	class Texture
 	{
 	private:
 		GLuint tex;
 	public:
-		Texture();
+		Texture(std::istream* buffer, const std::string& filename);
 		~Texture();
 
 		void Load(std::istream* buffer, const std::string& filename);
