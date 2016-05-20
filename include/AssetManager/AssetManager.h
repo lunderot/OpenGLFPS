@@ -37,17 +37,19 @@ namespace AssetManager
 	T* AssetManager<T>::Get(const std::string& name)
 	{
 		T* asset = nullptr;
-		try
+		std::map<std::string, T*>::iterator it = assets.find(name);
+		if (it != assets.end())
 		{
 			//Return the asset if it is already loaded
-			asset = static_cast<T*>(assets.at(name));
+			asset = it->second;
 		}
-		catch (const std::out_of_range&)
+		else
 		{
 			//Load and return the asset if it is not already loaded
 			std::ifstream inputFile(assetPath + name, std::ios::binary);
 			if (inputFile.good())
 			{
+				//Extract only the filename after the forward slash
 				std::size_t position = name.find_last_of('/');
 				std::string filename;
 				if (position == std::string::npos)
