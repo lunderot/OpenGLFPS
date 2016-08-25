@@ -44,7 +44,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	};
 	kult::add<Component::Render>(tree) = {
 		meshManager.Get("tree.obj"),
-		textureManager.Get("missing.raw"),
+		textureManager.Get("tree.raw"),
 		false
 	};
 	kult::add<Component::Physics>(tree) = {

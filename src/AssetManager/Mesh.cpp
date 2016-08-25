@@ -28,12 +28,16 @@ namespace AssetManager
 			{
 				glm::vec3 vertex;
 				*buffer >> vertex.x >> vertex.y >> vertex.z;
+				float temp = vertex.y;
+				vertex.y = vertex.z;
+				vertex.z = temp;
 				vertices.push_back(vertex);
 			}
 			else if (command == "vt")
 			{
 				glm::vec2 uv;
 				*buffer >> uv.x >> uv.y;
+				uv.y *= -1.0f;
 				uvs.push_back(uv);
 			}
 			else if (command == "vn")
