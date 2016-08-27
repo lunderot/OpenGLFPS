@@ -13,8 +13,12 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	shaderManager("data/shaders/"),
 	textureManager("data/textures/"),
 	configManager("data/config/"),
+	sceneManager("data/scenes/", &meshManager, &textureManager),
 	shader(shaderManager.Get("default.shader"))
 {
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+
 	kult::add<Component::Position>(camera) = {
 		glm::vec3(0, 0, 2)
 	};
@@ -26,42 +30,14 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 		configManager.Get("camera/fSpeed")->Get<glm::f32>()
 	};
 
-	kult::add<Component::Position>(cube) = {
-		glm::vec3(0, 0, 0),
-		glm::quat(),
-		glm::vec3(30, 30, 1)
-	};
-	kult::add<Component::Render>(cube) = {
-		meshManager.Get("cube.obj"),
-		textureManager.Get("wood.raw"),
-		true
-	};
-
-	kult::add<Component::Position>(tree) = {
-		glm::vec3(10, 0, 0),
-		glm::quat(),
-		glm::vec3(1, 1, 1)
-	};
-	kult::add<Component::Render>(tree) = {
-		meshManager.Get("tree.obj"),
-		textureManager.Get("tree.raw"),
-		false
-	};
-	kult::add<Component::Physics>(tree) = {
-		glm::vec3(0, 0, 0),
-		glm::zero<glm::vec3>(),
-		glm::vec3(0, 0, 1)
-	};
-
-	SDL_SetRelativeMouseMode(SDL_TRUE);
+	sceneManager.Get("scene.txt");
+	sceneManager.Get("scene2.txt");
 }
 
 
 Application::~Application()
 {
 	camera.purge();
-	cube.purge();
-	tree.purge();
 }
 
 void Application::HandleEvent(SDL_Event& event)
@@ -87,7 +63,6 @@ void Application::Update(float deltaTime)
 
 void Application::Render()
 {
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	Systems::Render(shader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f);
 }

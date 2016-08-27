@@ -7,6 +7,8 @@
 #include "AssetManager/Texture.h"
 #include "AssetManager/Config.h"
 
+#include "AssetManager/SceneManager.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
@@ -22,9 +24,9 @@ private:
 
 	AssetManager::Shader* shader;
 
+	AssetManager::SceneManager sceneManager;
+
 	kult::entity camera;
-	kult::entity cube;
-	kult::entity tree;
 public:
 	Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]);
 	virtual ~Application();
