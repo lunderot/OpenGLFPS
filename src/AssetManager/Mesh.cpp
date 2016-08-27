@@ -26,12 +26,13 @@ namespace AssetManager
 			*buffer >> command;
 			if (command == "v")
 			{
+				glm::mat3 mat(	1.0f,  0.0f,  0.0f,
+								0.0f,  0.0f, -1.0f,
+								0.0f,  1.0f,  0.0f
+					);
 				glm::vec3 vertex;
 				*buffer >> vertex.x >> vertex.y >> vertex.z;
-				float temp = vertex.y;
-				vertex.y = vertex.z;
-				vertex.z = temp;
-				vertices.push_back(vertex);
+				vertices.push_back(vertex*mat);
 			}
 			else if (command == "vt")
 			{
