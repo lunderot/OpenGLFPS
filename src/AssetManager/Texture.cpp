@@ -9,7 +9,7 @@ namespace AssetManager
 
 	Texture::~Texture()
 	{
-		glDeleteTextures(1, &tex);
+		Unload();
 	}
 
 	GLuint Texture::GetTexture() const
@@ -43,5 +43,10 @@ namespace AssetManager
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+
+	void Texture::Unload()
+	{
+		glDeleteTextures(1, &tex);
 	}
 }

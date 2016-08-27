@@ -11,6 +11,7 @@ namespace AssetManager
 
 	Config::~Config()
 	{
+		Unload();
 	}
 
 	void Config::Load(std::istream* buffer, const std::string& filename, const void* userData)
@@ -32,5 +33,9 @@ namespace AssetManager
 			throw std::runtime_error("Invalid config variable type");
 			break;
 		}
+	}
+
+	void Config::Unload()
+	{
 	}
 }

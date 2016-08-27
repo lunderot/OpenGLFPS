@@ -28,5 +28,6 @@ namespace AssetManager
 		~Scene();
 
 		void Load(std::istream* buffer, const std::string& filename, const UserData* userData);
+		void Unload();
 	};
 }

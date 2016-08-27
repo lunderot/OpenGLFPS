@@ -9,8 +9,7 @@ namespace AssetManager
 
 	Mesh::~Mesh()
 	{
-		glDeleteBuffers(1, &vbo);
-		glDeleteVertexArrays(1, &vao);
+		Unload();
 	}
 
 	void Mesh::LoadMesh(std::istream* buffer, std::vector<Vertex>& out)
@@ -118,5 +117,11 @@ namespace AssetManager
 
 		glBindVertexArray(0);
 		this->vertexCount = out.size();
+	}
+
+	void Mesh::Unload()
+	{
+		glDeleteBuffers(1, &vbo);
+		glDeleteVertexArrays(1, &vao);
 	}
 }

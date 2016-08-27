@@ -17,6 +17,10 @@ namespace AssetManager
 		~AssetManager();
 
 		T* Get(const std::string& name);
+		void Reload(const std::string& name);
+		void ReloadAll();
+	private:
+		T* Load(const std::string& name, bool alreadyLoaded = false);
 	};
 
 	template <typename T, typename U = void>
@@ -48,28 +52,59 @@ namespace AssetManager
 		else
 		{
 			//Load and return the asset if it is not already loaded
-			std::ifstream inputFile(assetPath + name, std::ios::binary);
-			if (inputFile.good())
+			asset = assets[name] = Load(name);
+		}
+		return asset;
+	}
+
+	template <typename T, typename U = void>
+	T* AssetManager<T, U>::Load(const std::string& name, bool alreadyLoaded)
+	{
+		T* asset = nullptr;
+		std::ifstream inputFile(assetPath + name, std::ios::binary);
+		if (inputFile.good())
+		{
+			//Extract only the filename after the forward slash
+			std::size_t position = name.find_last_of('/');
+			std::string filename;
+			if (position == std::string::npos)
 			{
-				//Extract only the filename after the forward slash
-				std::size_t position = name.find_last_of('/');
-				std::string filename;
-				if (position == std::string::npos)
-				{
-					filename = name;
-				}
-				else
-				{
-					filename = name.substr(position + 1);
-				}
-				
-				asset = assets[name] = new T(&inputFile, filename, userData);
+				filename = name;
 			}
 			else
 			{
-				throw std::runtime_error("Failed to open asset: " + name);
+				filename = name.substr(position + 1);
+			}
+			if (!alreadyLoaded)
+			{
+				asset = new T(&inputFile, filename, userData);
+			}
+			else
+			{
+				assets[name]->Load(&inputFile, filename, userData);
 			}
 		}
+		else
+		{
+			throw std::runtime_error("Failed to open asset: " + name);
+		}
 		return asset;
+	}
+
+	template <typename T, typename U = void>
+	void AssetManager<T, U>::Reload(const std::string& name)
+	{
+		assets[name]->Unload();
+		Load(name, true);
+	}
+
+	template <typename T, typename U = void>
+	void AssetManager<T, U>::ReloadAll()
+	{
+		for (auto i : assets)
+		{
+			assets[i.first]->Unload();
+			Load(i.first, true);
+		}
 	}
 }

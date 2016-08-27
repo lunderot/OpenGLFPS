@@ -12,12 +12,7 @@ namespace AssetManager
 
 	Shader::~Shader()
 	{
-		for (int i = 0; i < NUM_SHADERS; i++)
-		{
-			glDetachShader(program, shader[i]);
-			glDeleteShader(shader[i]);
-		}
-		glDeleteProgram(program);
+		Unload();
 	}
 
 	bool Shader::IsInUse() const
@@ -139,5 +134,15 @@ namespace AssetManager
 
 		glValidateProgram(program);
 		CheckProgramError(program, GL_VALIDATE_STATUS, "Program is not valid");
+	}
+
+	void Shader::Unload()
+	{
+		for (int i = 0; i < NUM_SHADERS; i++)
+		{
+			glDetachShader(program, shader[i]);
+			glDeleteShader(shader[i]);
+		}
+		glDeleteProgram(program);
 	}
 }

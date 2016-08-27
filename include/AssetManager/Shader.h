@@ -38,5 +38,6 @@ namespace AssetManager
 		void SetUniform(const GLchar* name, const glm::mat4& matrix);
 
 		void Load(std::istream* buffer, const std::string& filename, const void* userData);
+		void Unload();
 	};
 }

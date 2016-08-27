@@ -12,10 +12,7 @@ namespace AssetManager
 
 	Scene::~Scene()
 	{
-		for (auto e : entities)
-		{
-			e.purge();
-		}
+		Unload();
 	}
 
 	void Scene::Load(std::istream * buffer, const std::string & filename, const UserData* userData)
@@ -47,6 +44,14 @@ namespace AssetManager
 				scaleUv
 			};
 			entities.push_back(e);
+		}
+	}
+
+	void Scene::Unload()
+	{
+		for (auto e : entities)
+		{
+			e.purge();
 		}
 	}
 }
