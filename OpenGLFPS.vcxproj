@@ -79,7 +79,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\AssetManager\Mesh.cpp" />
     <ClCompile Include="src\AssetManager\Shader.cpp" />
-    <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\System.cpp" />
     <ClCompile Include="src\systems\Freelook.cpp" />
     <ClCompile Include="src\systems\Freemove.cpp" />
@@ -92,7 +91,6 @@
     <ClInclude Include="include\AssetManager\AssetManager.h" />
     <ClInclude Include="include\AssetManager\Config.h" />
     <ClInclude Include="include\AssetManager\Scene.h" />
-    <ClInclude Include="include\AssetManager\SceneManager.h" />
     <ClInclude Include="include\components\Freelook.h" />
     <ClInclude Include="include\components\Freemove.h" />
     <ClInclude Include="include\components\Position.h" />

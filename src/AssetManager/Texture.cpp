@@ -2,9 +2,9 @@
 
 namespace AssetManager
 {
-	Texture::Texture(std::istream* buffer, const std::string& filename)
+	Texture::Texture(std::istream* buffer, const std::string& filename, const void* userData)
 	{
-		Load(buffer, filename);
+		Load(buffer, filename, userData);
 	}
 
 	Texture::~Texture()
@@ -17,7 +17,7 @@ namespace AssetManager
 		return tex;
 	}
 
-	void Texture::Load(std::istream* buffer, const std::string& filename)
+	void Texture::Load(std::istream* buffer, const std::string& filename, const void* userData)
 	{
 		std::vector<char> textureData;
 		unsigned int width, height;

@@ -5,9 +5,9 @@
 
 namespace AssetManager
 {
-	Scene::Scene(std::istream * buffer, const std::string & filename, AssetManager<Mesh>* meshManager, AssetManager<Texture>* textureManager)
+	Scene::Scene(std::istream * buffer, const std::string & filename, const UserData* userData)
 	{
-		Load(buffer, filename, meshManager, textureManager);
+		Load(buffer, filename, userData);
 	}
 
 	Scene::~Scene()
@@ -18,7 +18,7 @@ namespace AssetManager
 		}
 	}
 
-	void Scene::Load(std::istream * buffer, const std::string & filename, AssetManager<Mesh>* meshManager, AssetManager<Texture>* textureManager)
+	void Scene::Load(std::istream * buffer, const std::string & filename, const UserData* userData)
 	{
 		while (!buffer->eof())
 		{
@@ -42,8 +42,8 @@ namespace AssetManager
 				scale
 			};
 			kult::add<Component::Render>(e) = {
-				meshManager->Get(filename),
-				textureManager->Get(textureFilename),
+				userData->meshManager->Get(filename),
+				userData->textureManager->Get(textureFilename),
 				scaleUv
 			};
 			entities.push_back(e);

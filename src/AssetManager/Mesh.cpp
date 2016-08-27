@@ -2,9 +2,9 @@
 
 namespace AssetManager
 {
-	Mesh::Mesh(std::istream* buffer, const std::string& filename)
+	Mesh::Mesh(std::istream* buffer, const std::string& filename, const void* userData)
 	{
-		Load(buffer, filename);
+		Load(buffer, filename, userData);
 	}
 
 	Mesh::~Mesh()
@@ -91,7 +91,7 @@ namespace AssetManager
 		return vertexCount;
 	}
 
-	void Mesh::Load(std::istream* buffer, const std::string& filename)
+	void Mesh::Load(std::istream* buffer, const std::string& filename, const void* userData)
 	{
 		std::vector<Vertex> out;
 		LoadMesh(buffer, out);

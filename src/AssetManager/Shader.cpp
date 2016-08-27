@@ -5,9 +5,9 @@
 
 namespace AssetManager
 {
-	Shader::Shader(std::istream* buffer, const std::string& filename)
+	Shader::Shader(std::istream* buffer, const std::string& filename, const void* userData)
 	{
-		Load(buffer, filename);
+		Load(buffer, filename, userData);
 	}
 
 	Shader::~Shader()
@@ -114,7 +114,7 @@ namespace AssetManager
 		}
 	}
 
-	void Shader::Load(std::istream* buffer, const std::string& filename)
+	void Shader::Load(std::istream* buffer, const std::string& filename, const void* userData)
 	{
 		unsigned first, last;
 

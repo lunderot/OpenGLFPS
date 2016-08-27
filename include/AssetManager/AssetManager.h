@@ -5,27 +5,29 @@
 namespace AssetManager
 {
 
-	template <typename T>
+	template <typename T, typename U = void>
 	class AssetManager
 	{
 	private:
 		std::string assetPath;
 		std::map<std::string, T*> assets;
+		const U* userData;
 	public:
-		AssetManager(const std::string& assetPath);
+		AssetManager(const std::string& assetPath, const U* userData = nullptr);
 		~AssetManager();
 
 		T* Get(const std::string& name);
 	};
 
-	template <typename T>
-	AssetManager<T>::AssetManager(const std::string& assetPath) :
-		assetPath(assetPath)
+	template <typename T, typename U = void>
+	AssetManager<T, U>::AssetManager(const std::string& assetPath, const U* userData) :
+		assetPath(assetPath),
+		userData(userData)
 	{
 	}
 
-	template <typename T>
-	AssetManager<T>::~AssetManager()
+	template <typename T, typename U = void>
+	AssetManager<T, U>::~AssetManager()
 	{
 		for (auto i : assets)
 		{
@@ -33,8 +35,8 @@ namespace AssetManager
 		}
 	}
 
-	template <typename T>
-	T* AssetManager<T>::Get(const std::string& name)
+	template <typename T, typename U = void>
+	T* AssetManager<T, U>::Get(const std::string& name)
 	{
 		T* asset = nullptr;
 		std::map<std::string, T*>::iterator it = assets.find(name);
@@ -60,7 +62,8 @@ namespace AssetManager
 				{
 					filename = name.substr(position + 1);
 				}
-				asset = assets[name] = new T(&inputFile, filename);
+				
+				asset = assets[name] = new T(&inputFile, filename, userData);
 			}
 			else
 			{

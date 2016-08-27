@@ -24,12 +24,12 @@ namespace AssetManager
 
 		void LoadMesh(std::istream* buffer, std::vector<Vertex>& out);
 	public:
-		Mesh(std::istream* buffer, const std::string& filename);
+		Mesh(std::istream* buffer, const std::string& filename, const void* userData);
 		~Mesh();
 		GLuint GetVBO() const;
 		GLuint GetVAO() const;
 		glm::u32 GetVertexCount() const;
 
-		void Load(std::istream* buffer, const std::string& filename);
+		void Load(std::istream* buffer, const std::string& filename, const void* userData);
 	};
 }

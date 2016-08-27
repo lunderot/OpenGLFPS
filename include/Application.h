@@ -6,8 +6,7 @@
 #include "AssetManager/Mesh.h"
 #include "AssetManager/Texture.h"
 #include "AssetManager/Config.h"
-
-#include "AssetManager/SceneManager.h"
+#include "AssetManager/Scene.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
@@ -21,10 +20,10 @@ private:
 	AssetManager::AssetManager<AssetManager::Shader> shaderManager;
 	AssetManager::AssetManager<AssetManager::Texture> textureManager;
 	AssetManager::AssetManager<AssetManager::Config> configManager;
+	AssetManager::Scene::UserData sceneManagerUserData;
+	AssetManager::AssetManager<AssetManager::Scene, AssetManager::Scene::UserData> sceneManager;
 
 	AssetManager::Shader* shader;
-
-	AssetManager::SceneManager sceneManager;
 
 	kult::entity camera;
 public:

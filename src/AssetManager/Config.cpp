@@ -4,16 +4,16 @@
 
 namespace AssetManager
 {
-	Config::Config(std::istream* buffer, const std::string& filename)
+	Config::Config(std::istream* buffer, const std::string& filename, const void* userData)
 	{
-		Load(buffer, filename);
+		Load(buffer, filename, userData);
 	}
 
 	Config::~Config()
 	{
 	}
 
-	void Config::Load(std::istream* buffer, const std::string& filename)
+	void Config::Load(std::istream* buffer, const std::string& filename, const void* userData)
 	{
 		std::string str((std::istreambuf_iterator<char>(*buffer)), std::istreambuf_iterator<char>());
 		switch (filename[0])

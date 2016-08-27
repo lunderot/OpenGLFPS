@@ -13,7 +13,8 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	shaderManager("data/shaders/"),
 	textureManager("data/textures/"),
 	configManager("data/config/"),
-	sceneManager("data/scenes/", &meshManager, &textureManager),
+	sceneManagerUserData{&meshManager, &textureManager},
+	sceneManager("data/scenes/", &sceneManagerUserData),
 	shader(shaderManager.Get("default.shader"))
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);

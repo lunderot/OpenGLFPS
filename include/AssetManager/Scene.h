@@ -15,12 +15,18 @@ namespace AssetManager
 {
 	class Scene
 	{
+	public:
+		struct UserData
+		{
+			AssetManager<Mesh>* meshManager;
+			AssetManager<Texture>* textureManager;
+		};
 	private:
 		std::vector<kult::entity> entities;
 	public:
-		Scene(std::istream* buffer, const std::string& filename, AssetManager<Mesh>* meshManager, AssetManager<Texture>* textureManager);
+		Scene(std::istream* buffer, const std::string& filename, const UserData* userData);
 		~Scene();
 
-		void Load(std::istream* buffer, const std::string& filename, AssetManager<Mesh>* meshManager, AssetManager<Texture>* textureManager);
+		void Load(std::istream* buffer, const std::string& filename, const UserData* userData);
 	};
 }
