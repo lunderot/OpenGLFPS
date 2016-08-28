@@ -24,6 +24,9 @@ namespace Systems
 		shader->SetUniform("projview", projection * view);
 		shader->SetUniform("tex", 0);
 
+		shader->SetUniform("lightposition", glm::vec3(1, 0, 2));
+		shader->SetUniform("lightcolor", glm::vec3(1, 1, 1));
+
 		for (auto &id : join<Component::Position, Component::Render>()) {
 			auto& renderData = get<Component::Render>(id);
 			auto& positionData = get<Component::Position>(id);

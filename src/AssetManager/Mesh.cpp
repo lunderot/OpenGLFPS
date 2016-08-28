@@ -19,16 +19,17 @@ namespace AssetManager
 		std::vector<glm::vec2> uvs;
 		std::vector<glm::vec3> normals;
 
+		glm::mat3 mat(1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, -1.0f,
+			0.0f, 1.0f, 0.0f
+			);
+
 		while (!buffer->eof())
 		{
 			std::string command;
 			*buffer >> command;
 			if (command == "v")
 			{
-				glm::mat3 mat(	1.0f,  0.0f,  0.0f,
-								0.0f,  0.0f, -1.0f,
-								0.0f,  1.0f,  0.0f
-					);
 				glm::vec3 vertex;
 				*buffer >> vertex.x >> vertex.y >> vertex.z;
 				vertices.push_back(vertex*mat);
@@ -44,7 +45,7 @@ namespace AssetManager
 			{
 				glm::vec3 normal;
 				*buffer >> normal.x >> normal.y >> normal.z;
-				normals.push_back(normal);
+				normals.push_back(normal*mat);
 			}
 			else if (command == "f")
 			{
