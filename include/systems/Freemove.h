@@ -5,7 +5,7 @@
 #include "components/Physics.h"
 #include "components/Freemove.h"
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 namespace Systems
 {

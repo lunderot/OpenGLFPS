@@ -1,7 +1,7 @@
 #include "AssetManager/Shader.h"
 
 #include <iostream>
-#include <SDL_assert.h>
+#include <SDL2/SDL_assert.h>
 
 namespace AssetManager
 {
