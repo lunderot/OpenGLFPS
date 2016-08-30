@@ -1,12 +1,12 @@
 #pragma once
 
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 #include <algorithm>
 
-#include <gl\glew.h>
+#include <GL/glew.h>
 #include <SDL.h>
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
 
 class System
 {
