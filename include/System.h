@@ -5,8 +5,13 @@
 #include <algorithm>
 
 #include <GL/glew.h>
-#include <SDL2/SDL.h>
 #include <glm/glm.hpp>
+
+#ifdef _WIN32
+	#include <SDL.h>
+#else
+	#include <SDL2/SDL.h>
+#endif // _WIN32
 
 class System
 {
