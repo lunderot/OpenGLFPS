@@ -3,6 +3,7 @@
 
 #include "components/Position.h"
 #include "components/Render.h"
+#include "components/Light.h"
 
 #include "../AssetManager/Shader.h"
 

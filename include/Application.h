@@ -26,6 +26,7 @@ private:
 	AssetManager::Shader* shader;
 
 	kult::entity camera;
+	kult::entity light;
 public:
 	Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]);
 	virtual ~Application();

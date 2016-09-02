@@ -31,6 +31,15 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 		configManager.Get("camera/fSpeed")->GetFloat()
 	};
 
+	kult::add<Component::Position>(light) = {
+		glm::vec3(1, 0, 1),
+		glm::quat(glm::vec3(0, 0, 0)),
+		glm::vec3(1, 1, 1)
+	};
+	kult::add<Component::Light>(light) = {
+		glm::vec3(1, 1, 1)
+	};
+
 	sceneManager.Get("scene.txt");
 	sceneManager.Get("scene2.txt");
 }
@@ -39,6 +48,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 Application::~Application()
 {
 	camera.purge();
+	light.purge();
 }
 
 void Application::HandleEvent(SDL_Event& event)
