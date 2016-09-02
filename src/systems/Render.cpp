@@ -24,8 +24,12 @@ namespace Systems
 		shader->SetUniform("projview", projection * view);
 		shader->SetUniform("tex", 0);
 
-		shader->SetUniform("lightposition", glm::vec3(1, 0, 2));
-		shader->SetUniform("lightcolor", glm::vec3(1, 1, 1));
+		static glm::vec3 lights[4] = { { 0, 0, 1 },{ 5, 0, 1 },{ 0, 5, 1 },{ -5, -3, 0.1 } };
+		static glm::vec3 colors[4] = { { 1, 1, 1 },{ 0, 1, 0 },{ 0, 0, 1 },{ 1, 1, 1 } };
+
+		shader->SetUniform("lightposition", lights[0], 4);
+		shader->SetUniform("lightcolor", colors[0], 4);
+		shader->SetUniform("lightcount", 4);
 
 		for (auto &id : join<Component::Position, Component::Render>()) {
 			auto& renderData = get<Component::Render>(id);
