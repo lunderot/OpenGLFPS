@@ -1,12 +1,17 @@
 #pragma once
 
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 #include <algorithm>
 
-#include <gl\glew.h>
-#include <SDL.h>
-#include <glm\glm.hpp>
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+
+#ifdef _WIN32
+	#include <SDL.h>
+#else
+	#include <SDL2/SDL.h>
+#endif // _WIN32
 
 class System
 {

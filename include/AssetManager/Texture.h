@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 
-#include <gl/glew.h>
+#include <GL/glew.h>
 #include <glm/glm.hpp>
 
 namespace AssetManager

@@ -1,7 +1,11 @@
 #include "AssetManager/Shader.h"
 
 #include <iostream>
-#include <SDL_assert.h>
+#ifdef _WIN32
+	#include <SDL_assert.h>
+#else
+	#include <SDL2/SDL_assert.h>
+#endif // _WIN32
 
 namespace AssetManager
 {

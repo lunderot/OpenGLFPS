@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
+#include <fstream>
 
 namespace AssetManager
 {
@@ -23,14 +24,14 @@ namespace AssetManager
 		T* Load(const std::string& name, bool alreadyLoaded = false);
 	};
 
-	template <typename T, typename U = void>
+	template <typename T, typename U>
 	AssetManager<T, U>::AssetManager(const std::string& assetPath, const U* userData) :
 		assetPath(assetPath),
 		userData(userData)
 	{
 	}
 
-	template <typename T, typename U = void>
+	template <typename T, typename U>
 	AssetManager<T, U>::~AssetManager()
 	{
 		for (auto i : assets)
@@ -39,11 +40,11 @@ namespace AssetManager
 		}
 	}
 
-	template <typename T, typename U = void>
+	template <typename T, typename U>
 	T* AssetManager<T, U>::Get(const std::string& name)
 	{
 		T* asset = nullptr;
-		std::map<std::string, T*>::iterator it = assets.find(name);
+		typename std::map<std::string, T*>::iterator it = assets.find(name);
 		if (it != assets.end())
 		{
 			//Return the asset if it is already loaded
@@ -57,7 +58,7 @@ namespace AssetManager
 		return asset;
 	}
 
-	template <typename T, typename U = void>
+	template <typename T, typename U>
 	T* AssetManager<T, U>::Load(const std::string& name, bool alreadyLoaded)
 	{
 		T* asset = nullptr;
@@ -91,14 +92,14 @@ namespace AssetManager
 		return asset;
 	}
 
-	template <typename T, typename U = void>
+	template <typename T, typename U>
 	void AssetManager<T, U>::Reload(const std::string& name)
 	{
 		assets[name]->Unload();
 		Load(name, true);
 	}
 
-	template <typename T, typename U = void>
+	template <typename T, typename U>
 	void AssetManager<T, U>::ReloadAll()
 	{
 		for (auto i : assets)

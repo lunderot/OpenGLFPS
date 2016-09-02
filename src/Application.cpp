@@ -24,11 +24,11 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 		glm::vec3(0, 0, 2)
 	};
 	kult::add<Component::Freelook>(camera) = {
-		configManager.Get("camera/fSensitivity")->Get<glm::f32>()
+		configManager.Get("camera/fSensitivity")->GetFloat()
 	};
 	kult::add<Component::Physics>(camera);
 	kult::add<Component::Freemove>(camera) = {
-		configManager.Get("camera/fSpeed")->Get<glm::f32>()
+		configManager.Get("camera/fSpeed")->GetFloat()
 	};
 
 	sceneManager.Get("scene.txt");

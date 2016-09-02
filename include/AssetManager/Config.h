@@ -2,6 +2,8 @@
 
 #include <string>
 #include <istream>
+#include <cstring>
+#include <stdexcept>
 
 namespace AssetManager
 {
@@ -18,26 +20,17 @@ namespace AssetManager
 		Config(std::istream* buffer, const std::string& filename, const void* userData);
 		~Config();
 
-		template<typename T>
-		T Get()
-		{
-			return *static_cast<T*>(&data[0]);
-		}
-
-		template<>
-		std::string Get<std::string>()
+		std::string GetString()
 		{
 			return std::string(data);
 		}
 
-		template<>
-		float Get<float>()
+		float GetFloat()
 		{
 			return floatValue;
 		}
 
-		template<>
-		int Get<int>()
+		int GetInt()
 		{
 			return integerValue;
 		}
