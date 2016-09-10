@@ -41,7 +41,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	};
 
 	sceneManager.Get("scene.txt");
-	sceneManager.Get("scene2.txt");
+	sceneManager.Get("floor.txt");
 }
 
 
