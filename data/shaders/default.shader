@@ -50,7 +50,10 @@ VS>>>
 	void main()
 	{
 		vec3 normal = normal_out;
-		
+		vec4 texColor = texture(tex, uv_out);
+
+		if (texColor.a < 0.5)
+			discard;
 
 		if (!gl_FrontFacing)
 			normal *= -1.0;
@@ -62,6 +65,6 @@ VS>>>
 			diffuse += brightness * lightcolor[i];
 		}
 
-		fragment = vec4(diffuse, 1) * texture(tex, uv_out);
+		fragment = vec4(diffuse, 1) * texColor;
 	}
 FS>>>
