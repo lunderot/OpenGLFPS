@@ -49,15 +49,39 @@ namespace AssetManager
 			}
 			else if (command == "f")
 			{
-				glm::u32 vertexIndex[3], uvIndex[3], normalIndex[3];
+				glm::u32 vertexIndex[4], uvIndex[4], normalIndex[4];
 				char padding;
+				int count = 0;
+				
 				for (int i = 0; i < 3; i++)
 				{
 					*buffer >> vertexIndex[i] >> padding >> uvIndex[i] >> padding >> normalIndex[i];
-
+					count++;
+				}
+				char next = (*buffer).peek();
+				if (!(next == '\r' || next == '\n'))
+				{
+					*buffer >> vertexIndex[3] >> padding >> uvIndex[3] >> padding >> normalIndex[3];
+					count++;
+				}
+				
+				for (int i = 0; i < 3; i++)
+				{
 					vertexIndices.push_back(vertexIndex[i]);
 					uvIndices.push_back(uvIndex[i]);
 					normalIndices.push_back(normalIndex[i]);
+				}
+				if (count == 4)
+				{
+					vertexIndices.push_back(vertexIndex[0]);
+					vertexIndices.push_back(vertexIndex[2]);
+					vertexIndices.push_back(vertexIndex[3]);
+					uvIndices.push_back(uvIndex[0]);
+					uvIndices.push_back(uvIndex[2]);
+					uvIndices.push_back(uvIndex[3]);
+					normalIndices.push_back(normalIndex[0]);
+					normalIndices.push_back(normalIndex[2]);
+					normalIndices.push_back(normalIndex[3]);
 				}
 			}
 			else //Unknown command
