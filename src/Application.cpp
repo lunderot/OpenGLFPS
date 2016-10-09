@@ -13,7 +13,8 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	shaderManager("data/shaders/"),
 	textureManager("data/textures/"),
 	configManager("data/config/"),
-	sceneManagerUserData{&meshManager, &textureManager},
+	collisionManager("data/models/"),
+	sceneManagerUserData{&meshManager, &textureManager, &collisionManager},
 	sceneManager("data/scenes/", &sceneManagerUserData),
 	shader(shaderManager.Get("default.shader"))
 {

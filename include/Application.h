@@ -20,6 +20,7 @@ private:
 	AssetManager::AssetManager<AssetManager::Shader> shaderManager;
 	AssetManager::AssetManager<AssetManager::Texture> textureManager;
 	AssetManager::AssetManager<AssetManager::Config> configManager;
+	AssetManager::AssetManager<AssetManager::Collision> collisionManager;
 	AssetManager::Scene::UserData sceneManagerUserData;
 	AssetManager::AssetManager<AssetManager::Scene, AssetManager::Scene::UserData> sceneManager;
 

@@ -41,7 +41,11 @@ namespace Systems
 			{
 				moveDirection = normalize(moveDirection);
 			}
-			get<Component::Physics>(id).velocity = get<Component::Position>(id).rot * moveDirection * get<Component::Freemove>(id).speed * speedMultiplier;
+			if (get<Component::Physics>(id).acceleration.z >= 0.0f)
+			{
+				get<Component::Physics>(id).velocity = get<Component::Position>(id).rot * moveDirection * get<Component::Freemove>(id).speed * speedMultiplier;
+			}
+			
 		}
 	}
 }

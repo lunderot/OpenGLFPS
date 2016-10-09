@@ -6,6 +6,7 @@
 #include "AssetManager/AssetManager.h"
 #include "AssetManager/Mesh.h"
 #include "AssetManager/Texture.h"
+#include "AssetManager/Collision.h"
 
 #include "glm/glm.hpp"
 
@@ -20,6 +21,7 @@ namespace AssetManager
 		{
 			AssetManager<Mesh>* meshManager;
 			AssetManager<Texture>* textureManager;
+			AssetManager<Collision>* collisionManager;
 		};
 	private:
 		std::vector<kult::entity> entities;

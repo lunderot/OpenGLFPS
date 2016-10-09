@@ -6,10 +6,13 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
+#include "AssetManager/Collision.h"
+
 namespace AssetManager
 {
 	class Mesh
 	{
+		friend Collision;
 	public:
 		struct Vertex
 		{
@@ -22,7 +25,7 @@ namespace AssetManager
 		GLuint vao;
 		glm::u32 vertexCount;
 
-		void LoadMesh(std::istream* buffer, std::vector<Vertex>& out);
+		static void LoadMesh(std::istream* buffer, std::vector<Vertex>& out);
 	public:
 		Mesh(std::istream* buffer, const std::string& filename, const void* userData);
 		~Mesh();

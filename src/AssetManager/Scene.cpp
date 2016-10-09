@@ -2,6 +2,7 @@
 
 #include "components/Position.h"
 #include "components/Render.h"
+#include "components/Collision.h"
 
 namespace AssetManager
 {
@@ -42,6 +43,9 @@ namespace AssetManager
 				userData->meshManager->Get(filename),
 				userData->textureManager->Get(textureFilename),
 				scaleUv
+			};
+			kult::add<Component::Collision>(e) = {
+				userData->collisionManager->Get(filename)
 			};
 			entities.push_back(e);
 		}
