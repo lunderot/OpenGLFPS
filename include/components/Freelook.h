@@ -7,6 +7,7 @@ namespace Component
 	struct FreelookData
 	{
 		glm::f32 sensitivity;
+		glm::mat3 orientation;
 		glm::vec2 rotation;
 
 		template<typename T> friend T&operator<<(T &os, const FreelookData &self) {

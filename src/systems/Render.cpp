@@ -16,8 +16,8 @@ namespace Systems
 		auto& cameraData = get<Component::Freelook>(camera);
 
 		glm::mat4 projection = glm::perspective(glm::radians(fov), (glm::f32)screenSize.x / screenSize.y, near, far);
-		glm::vec3 lookDirection = cameraPositionData.rot * glm::vec3(1, 0, 0);
-		glm::vec3 up = cameraPositionData.rot * glm::vec3(0, 0, 1);
+		glm::vec3 lookDirection = cameraPositionData.rot * glm::vec3(1, 0, 0) * cameraData.orientation;
+		glm::vec3 up = cameraPositionData.rot * glm::vec3(0, 0, 1) * cameraData.orientation;
 		glm::mat4 view = glm::lookAt(cameraPositionData.pos, cameraPositionData.pos + lookDirection, up);
 
 		shader->Use();

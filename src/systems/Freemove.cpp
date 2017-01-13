@@ -1,4 +1,5 @@
 #include "systems/Freemove.h"
+#include "systems/Freelook.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -41,7 +42,7 @@ namespace Systems
 			{
 				moveDirection = normalize(moveDirection);
 			}
-			get<Component::Physics>(id).velocity = get<Component::Position>(id).rot * moveDirection * get<Component::Freemove>(id).speed * speedMultiplier;
+			get<Component::Physics>(id).velocity = get<Component::Position>(id).rot * moveDirection * get<Component::Freelook>(id).orientation * get<Component::Freemove>(id).speed * speedMultiplier;
 		}
 	}
 }

@@ -27,6 +27,7 @@ private:
 
 	kult::entity camera;
 	kult::entity light;
+	glm::f32 angle, angle2;
 public:
 	Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]);
 	virtual ~Application();
