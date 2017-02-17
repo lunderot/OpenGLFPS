@@ -9,12 +9,12 @@
 
 Application::Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]):
 	System(screenSize, title, argc, argv),
-	meshManager("data/models/"),
-	shaderManager("data/shaders/"),
-	textureManager("data/textures/"),
-	configManager("data/config/"),
+	meshManager("../data/models/"),
+	shaderManager("../data/shaders/"),
+	textureManager("../data/textures/"),
+	configManager("../data/config/"),
 	sceneManagerUserData{&meshManager, &textureManager},
-	sceneManager("data/scenes/", &sceneManagerUserData),
+	sceneManager("../data/scenes/", &sceneManagerUserData),
 	shader(shaderManager.Get("default.shader"))
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
