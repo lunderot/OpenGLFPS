@@ -43,10 +43,35 @@ System::System(glm::uvec2 screenSize, const std::string& title, int argc, char* 
 	}
 	//Enable depth test
 	glEnable(GL_DEPTH_TEST);
+
+
+	//Initialize OpenAL
+	alGetError();
+	alDevice = alcOpenDevice(NULL);
+	if (!alDevice)
+	{
+		throw std::runtime_error("alcOpenDevice failed");
+	}
+	//alGetError();
+	alContext = alcCreateContext(alDevice, NULL);
+	if (!alcMakeContextCurrent(alContext))
+	{
+		throw std::runtime_error("alcMakeContextCurrent failed");
+	}
+
+	if (alGetError() != AL_NO_ERROR)
+	{
+		throw std::runtime_error("OpenAL failed");
+	}
 }
 
 System::~System()
 {
+	alDevice = alcGetContextsDevice(alContext);
+	alcMakeContextCurrent(NULL);
+	alcDestroyContext(alContext);
+	alcCloseDevice(alDevice);
+
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }

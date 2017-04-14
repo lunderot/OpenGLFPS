@@ -17,6 +17,8 @@ include_directories(
 	"${PROJECT_SOURCE_DIR}/external/glm"
 	"${PROJECT_SOURCE_DIR}/external/kult"
 	"${PROJECT_SOURCE_DIR}/external/SDL/include"
+	"${PROJECT_SOURCE_DIR}/external/openal/include"
+	"${PROJECT_SOURCE_DIR}/external/stb"
 	)
 
 add_executable(
@@ -32,6 +34,7 @@ add_executable(
 	src/AssetManager/Scene.cpp
 	src/AssetManager/Shader.cpp
 	src/AssetManager/Texture.cpp
+	src/AssetManager/Audio.cpp
 	src/systems/Freelook.cpp
 	src/systems/Freemove.cpp
 	src/systems/Physics.cpp
@@ -45,4 +48,5 @@ target_link_libraries(
 	glew
 	SDL2main
 	SDL2
+	OpenAL32
 )

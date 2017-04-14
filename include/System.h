@@ -13,6 +13,9 @@
 	#include <SDL2/SDL.h>
 #endif // _WIN32
 
+#include "AL/al.h"
+#include "AL/alc.h"
+
 class System
 {
 private:
@@ -21,6 +24,9 @@ private:
 
 	SDL_Window* window;
 	SDL_GLContext context;
+
+	ALCdevice* alDevice;
+	ALCcontext* alContext;
 
 	SDL_Event event;
 	

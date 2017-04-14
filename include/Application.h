@@ -7,6 +7,7 @@
 #include "AssetManager/Texture.h"
 #include "AssetManager/Config.h"
 #include "AssetManager/Scene.h"
+#include "AssetManager/Audio.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -23,11 +24,15 @@ private:
 	AssetManager::AssetManager<AssetManager::Config> configManager;
 	AssetManager::Scene::UserData sceneManagerUserData;
 	AssetManager::AssetManager<AssetManager::Scene, AssetManager::Scene::UserData> sceneManager;
+	AssetManager::AssetManager<AssetManager::Audio> audioManager;
 
 	AssetManager::Shader* shader;
 
 	kult::entity camera;
 	kult::entity light;
+
+	
+	ALuint source;
 public:
 	Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]);
 	virtual ~Application();

@@ -15,6 +15,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	configManager("../data/config/"),
 	sceneManagerUserData{&meshManager, &textureManager},
 	sceneManager("../data/scenes/", &sceneManagerUserData),
+	audioManager("../data/audio/"),
 	shader(shaderManager.Get("default.shader"))
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -42,6 +43,24 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 
 	sceneManager.Get("scene.txt");
 	sceneManager.Get("floor.txt");
+
+
+	
+
+
+	
+
+	
+	alGenSources((ALuint)1, &source);
+	// check for errors
+
+	alSourcef(source, AL_PITCH, 1);
+	alSourcef(source, AL_GAIN, 1);
+	alSource3f(source, AL_POSITION, 0, 0, 0);
+	alSource3f(source, AL_VELOCITY, 0, 0, 0);
+	alSourcei(source, AL_LOOPING, true);
+	alSourcei(source, AL_BUFFER, audioManager.Get("beep.ogg")->GetBuffer());
+
 }
 
 
@@ -49,6 +68,9 @@ Application::~Application()
 {
 	camera.purge();
 	light.purge();
+
+	// cleanup context
+	alDeleteSources(1, &source);
 }
 
 void Application::HandleEvent(SDL_Event& event)
@@ -58,6 +80,20 @@ void Application::HandleEvent(SDL_Event& event)
 	case SDL_MOUSEBUTTONDOWN:
 	{
 		std::cout << "Mouse button down" << std::endl;
+		
+
+		int state;
+		alGetSourcei(source, AL_SOURCE_STATE, &state);
+		if (state == AL_PLAYING)
+		{
+			alSourcePause(source);
+		}
+		else
+		{
+			alSourcePlay(source);
+		}
+
+		kult::get<Component::Position>(light).pos = kult::get<Component::Position>(camera).pos;
 		break;
 	}
 	default:
@@ -70,6 +106,15 @@ void Application::Update(float deltaTime)
 {
 	Systems::UpdateFreemove();
 	Systems::Physics(deltaTime);
+
+	
+	alListenerfv(AL_POSITION, glm::value_ptr(kult::get<Component::Position>(camera).pos));
+	alListenerfv(AL_VELOCITY, glm::value_ptr(kult::get<Component::Physics>(camera).velocity));
+
+	glm::vec3 dir = kult::get<Component::Position>(camera).rot * glm::vec3(1, 0, 0);
+	ALfloat listenerOri[] = { dir.x, dir.y, dir.z, 0.0f, 0.0f, 1.0f };
+
+	alListenerfv(AL_ORIENTATION, listenerOri);
 }
 
 void Application::Render()

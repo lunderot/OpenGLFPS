@@ -12,7 +12,10 @@ int main(int argc, char* argv[])
 	catch (std::exception e)
 	{
 		std::stringstream ss;
-		ss << e.what() << std::endl << "SDL error: " << SDL_GetError();
+		ss << e.what() << std::endl
+			<< "SDL error: " << SDL_GetError() << std::endl
+			<< "OpenAL error: " << alGetError();
+			;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", ss.str().c_str(), nullptr);
 		return 1;
 	}
