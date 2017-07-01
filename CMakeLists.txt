@@ -39,6 +39,7 @@ add_executable(
 	src/systems/Freemove.cpp
 	src/systems/Physics.cpp
 	src/systems/Render.cpp
+	src/systems/Listener.cpp
 )
 
 target_link_libraries(

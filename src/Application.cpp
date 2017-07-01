@@ -4,6 +4,7 @@
 #include "systems/Render.h"
 #include "systems/Freelook.h"
 #include "systems/Freemove.h"
+#include "systems/Listener.h"
 
 #include <glm/gtc/random.hpp>
 
@@ -31,6 +32,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	kult::add<Component::Freemove>(camera) = {
 		configManager.Get("camera/fSpeed")->GetFloat()
 	};
+	kult::add<Component::Listener>(camera);
 
 	kult::add<Component::Position>(light) = {
 		glm::vec3(1, 0, 1),
@@ -59,7 +61,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	alSource3f(source, AL_POSITION, 0, 0, 0);
 	alSource3f(source, AL_VELOCITY, 0, 0, 0);
 	alSourcei(source, AL_LOOPING, true);
-	alSourcei(source, AL_BUFFER, audioManager.Get("beep.ogg")->GetBuffer());
+	alSourcei(source, AL_BUFFER, audioManager.Get("bulb-horn-01.ogg")->GetBuffer());
 
 }
 
@@ -106,15 +108,7 @@ void Application::Update(float deltaTime)
 {
 	Systems::UpdateFreemove();
 	Systems::Physics(deltaTime);
-
-	
-	alListenerfv(AL_POSITION, glm::value_ptr(kult::get<Component::Position>(camera).pos));
-	alListenerfv(AL_VELOCITY, glm::value_ptr(kult::get<Component::Physics>(camera).velocity));
-
-	glm::vec3 dir = kult::get<Component::Position>(camera).rot * glm::vec3(1, 0, 0);
-	ALfloat listenerOri[] = { dir.x, dir.y, dir.z, 0.0f, 0.0f, 1.0f };
-
-	alListenerfv(AL_ORIENTATION, listenerOri);
+	Systems::UpdateListener();
 }
 
 void Application::Render()
