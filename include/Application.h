@@ -9,6 +9,8 @@
 #include "AssetManager/Scene.h"
 #include "AssetManager/Audio.h"
 
+#include "AudioPlayer.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -24,15 +26,11 @@ private:
 	AssetManager::AssetManager<AssetManager::Config> configManager;
 	AssetManager::Scene::UserData sceneManagerUserData;
 	AssetManager::AssetManager<AssetManager::Scene, AssetManager::Scene::UserData> sceneManager;
-	AssetManager::AssetManager<AssetManager::Audio> audioManager;
-
+	AudioPlayer audioPlayer;
 	AssetManager::Shader* shader;
 
 	kult::entity camera;
 	kult::entity light;
-
-	
-	ALuint source;
 public:
 	Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]);
 	virtual ~Application();

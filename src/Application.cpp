@@ -16,8 +16,8 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	configManager("../data/config/"),
 	sceneManagerUserData{&meshManager, &textureManager},
 	sceneManager("../data/scenes/", &sceneManagerUserData),
-	audioManager("../data/audio/"),
-	shader(shaderManager.Get("default.shader"))
+	shader(shaderManager.Get("default.shader")),
+	audioPlayer("../data/audio/")
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -42,27 +42,8 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	kult::add<Component::Light>(light) = {
 		glm::vec3(1, 1, 1)
 	};
-
 	sceneManager.Get("scene.txt");
 	sceneManager.Get("floor.txt");
-
-
-	
-
-
-	
-
-	
-	alGenSources((ALuint)1, &source);
-	// check for errors
-
-	alSourcef(source, AL_PITCH, 1);
-	alSourcef(source, AL_GAIN, 1);
-	alSource3f(source, AL_POSITION, 0, 0, 0);
-	alSource3f(source, AL_VELOCITY, 0, 0, 0);
-	alSourcei(source, AL_LOOPING, true);
-	alSourcei(source, AL_BUFFER, audioManager.Get("bulb-horn-01.ogg")->GetBuffer());
-
 }
 
 
@@ -70,9 +51,6 @@ Application::~Application()
 {
 	camera.purge();
 	light.purge();
-
-	// cleanup context
-	alDeleteSources(1, &source);
 }
 
 void Application::HandleEvent(SDL_Event& event)
@@ -82,19 +60,7 @@ void Application::HandleEvent(SDL_Event& event)
 	case SDL_MOUSEBUTTONDOWN:
 	{
 		std::cout << "Mouse button down" << std::endl;
-		
-
-		int state;
-		alGetSourcei(source, AL_SOURCE_STATE, &state);
-		if (state == AL_PLAYING)
-		{
-			alSourcePause(source);
-		}
-		else
-		{
-			alSourcePlay(source);
-		}
-
+		audioPlayer.Play("bep", "beep.ogg", { 0, 0, 5 });
 		kult::get<Component::Position>(light).pos = kult::get<Component::Position>(camera).pos;
 		break;
 	}

@@ -28,18 +28,22 @@ add_executable(
 	src/AssetManager
 	src/main.cpp
 	src/System.cpp
+	src/AudioPlayer.cpp
 	src/systems
+	
 	src/AssetManager/Config.cpp
 	src/AssetManager/Mesh.cpp
 	src/AssetManager/Scene.cpp
 	src/AssetManager/Shader.cpp
 	src/AssetManager/Texture.cpp
 	src/AssetManager/Audio.cpp
+	
 	src/systems/Freelook.cpp
 	src/systems/Freemove.cpp
 	src/systems/Physics.cpp
 	src/systems/Render.cpp
 	src/systems/Listener.cpp
+	
 )
 
 target_link_libraries(
