@@ -2,6 +2,7 @@
 
 #include "systems/Physics.h"
 #include "systems/Render.h"
+#include "systems/AnimatedRender.h"
 #include "systems/Freelook.h"
 #include "systems/Freemove.h"
 #include "systems/Listener.h"
@@ -11,12 +12,14 @@
 Application::Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]):
 	System(screenSize, title, argc, argv),
 	meshManager("../data/models/"),
+	animatedMeshManager("../data/animatedmodels/"),
 	shaderManager("../data/shaders/"),
 	textureManager("../data/textures/"),
 	configManager("../data/config/"),
 	sceneManagerUserData{&meshManager, &textureManager},
 	sceneManager("../data/scenes/", &sceneManagerUserData),
 	shader(shaderManager.Get("default.shader")),
+	animatedShader(shaderManager.Get("animated.shader")),
 	audioPlayer("../data/audio/")
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -42,8 +45,18 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	kult::add<Component::Light>(light) = {
 		glm::vec3(1, 1, 1)
 	};
-	sceneManager.Get("scene.txt");
+	//sceneManager.Get("scene.txt");
 	sceneManager.Get("floor.txt");
+
+	kult::add<Component::Position>(animation) = {
+		{3, 0, 1},
+		glm::quat(),
+		glm::vec3(1, 1, 1)
+	};
+	kult::add<Component::AnimatedRender>(animation) = {
+		animatedMeshManager.Get("quad.obj"),
+		textureManager.Get("missing.raw")
+	};
 }
 
 
@@ -81,4 +94,5 @@ void Application::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	Systems::Render(shader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f);
+	Systems::AnimatedRender(animatedShader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f);
 }
