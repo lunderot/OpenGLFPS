@@ -1,0 +1,51 @@
+;begin header
+	4 ;num bones
+	2 ;num keyframes
+	
+	;begin bone hierarchy, bone id -1 is no parent
+		;parentboneid
+		-1 ;bone 0
+		-1 ;bone 1
+		-1 ;bone 2
+		-1 ;bone 3
+	;end
+;end header
+
+;begin keyframe
+	0 ;timestamp, in seconds
+	
+	0 0 0 ;translation, vec3
+	0 0 0 1 ;rotation, quaternion
+	1 1 1 ;scale, vec3
+	
+	0 0 0 ;translation, vec3
+	0 0 0 1 ;rotation, quaternion
+	1 1 1 ;scale, vec3
+	
+	0 0 0 ;translation, vec3
+	0 0 0 1 ;rotation, quaternion
+	1 1 1 ;scale, vec3
+	
+	0 0 0 ;translation, vec3
+	0 0 0 1 ;rotation, quaternion
+	1 1 1 ;scale, vec3
+;end keyframe
+;begin keyframe
+	1 ;timestamp, in seconds
+	
+	0 0 3 ;translation, vec3
+	0 0 0 1 ;rotation, quaternion
+	1 1 1 ;scale, vec3
+	
+	0 0 0 ;translation, vec3
+	0 0 0 1 ;rotation, quaternion
+	1 1 1 ;scale, vec3
+	
+	0 0 0 ;translation, vec3
+	0 0 0 1 ;rotation, quaternion
+	1 1 1 ;scale, vec3
+	
+	0 0 0 ;translation, vec3
+	0 0 0 0 ;rotation, quaternion
+	1 1 1 ;scale, vec3
+;end keyframe

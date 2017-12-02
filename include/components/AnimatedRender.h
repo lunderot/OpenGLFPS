@@ -3,6 +3,7 @@
 
 #include "../AssetManager/AnimatedMesh.h"
 #include "../AssetManager/Texture.h"
+#include "../AssetManager/Animation.h"
 
 namespace Component
 {
@@ -10,6 +11,8 @@ namespace Component
 	{
 		AssetManager::AnimatedMesh* mesh;
 		AssetManager::Texture* texture;
+		AssetManager::Animation* animation;
+		float time;
 
 		template<typename T> friend T&operator<<(T &os, const AnimatedRenderData &self) {
 			return os << "animatedmesh", os;

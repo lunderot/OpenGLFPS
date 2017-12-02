@@ -9,6 +9,7 @@
 #include "AssetManager/Config.h"
 #include "AssetManager/Scene.h"
 #include "AssetManager/Audio.h"
+#include "AssetManager/Animation.h"
 
 #include "AudioPlayer.h"
 
@@ -28,7 +29,9 @@ private:
 	AssetManager::AssetManager<AssetManager::Config> configManager;
 	AssetManager::Scene::UserData sceneManagerUserData;
 	AssetManager::AssetManager<AssetManager::Scene, AssetManager::Scene::UserData> sceneManager;
+	AssetManager::AssetManager<AssetManager::Animation> animationManager;
 	AudioPlayer audioPlayer;
+
 	AssetManager::Shader* shader;
 	AssetManager::Shader* animatedShader;
 
@@ -36,6 +39,8 @@ private:
 	kult::entity light;
 
 	kult::entity animation;
+
+	float dt;
 public:
 	Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]);
 	virtual ~Application();

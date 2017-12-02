@@ -38,6 +38,7 @@ add_executable(
 	src/AssetManager/Shader.cpp
 	src/AssetManager/Texture.cpp
 	src/AssetManager/Audio.cpp
+	src/AssetManager/Animation.cpp
 	
 	src/systems/Freelook.cpp
 	src/systems/Freemove.cpp

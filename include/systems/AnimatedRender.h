@@ -9,5 +9,5 @@
 
 namespace Systems
 {
-	void AnimatedRender(AssetManager::Shader* shader, kult::entity camera, glm::ivec2 screenSize, glm::f32 fov, glm::f32 near, glm::f32 far);
+	void AnimatedRender(AssetManager::Shader* shader, kult::entity camera, glm::ivec2 screenSize, glm::f32 fov, glm::f32 near, glm::f32 far, glm::f32 deltaTime);
 }

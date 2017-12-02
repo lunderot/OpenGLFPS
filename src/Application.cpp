@@ -20,7 +20,9 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	sceneManager("../data/scenes/", &sceneManagerUserData),
 	shader(shaderManager.Get("default.shader")),
 	animatedShader(shaderManager.Get("animated.shader")),
-	audioPlayer("../data/audio/")
+	audioPlayer("../data/audio/"),
+	animationManager("../data/animations/"),
+	dt(0.0f)
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -55,7 +57,8 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	};
 	kult::add<Component::AnimatedRender>(animation) = {
 		animatedMeshManager.Get("quad.obj"),
-		textureManager.Get("missing.raw")
+		textureManager.Get("missing.raw"),
+		animationManager.Get("move.txt")
 	};
 }
 
@@ -75,6 +78,7 @@ void Application::HandleEvent(SDL_Event& event)
 		std::cout << "Mouse button down" << std::endl;
 		audioPlayer.Play("bep", "beep.ogg", { 0, 0, 5 });
 		kult::get<Component::Position>(light).pos = kult::get<Component::Position>(camera).pos;
+		animationManager.Reload("move.txt");
 		break;
 	}
 	default:
@@ -88,11 +92,12 @@ void Application::Update(float deltaTime)
 	Systems::UpdateFreemove();
 	Systems::Physics(deltaTime);
 	Systems::UpdateListener();
+	dt = deltaTime;
 }
 
 void Application::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	Systems::Render(shader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f);
-	Systems::AnimatedRender(animatedShader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f);
+	Systems::AnimatedRender(animatedShader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f, dt);
 }
