@@ -27,7 +27,7 @@ namespace Systems
 			{
 				next = *it;
 				nextTime = (*it)[0].time;
-					--it;
+				--it;
 				prev = *it;
 				prevTime = (*it)[0].time;
 				break;
@@ -51,6 +51,15 @@ namespace Systems
 			bone *= glm::mat4_cast(current[i].rotation);
 			bone = glm::scale(bone, current[i].scale);
 			bones.push_back(bone);
+		}
+
+		auto hierarchy = renderData.animation->GetHierarchy();
+		for (int i = 0; i < bones.size(); i++)
+		{
+			if (hierarchy[i] != -1)
+			{
+				bones[i] = bones[hierarchy[i]] * bones[i];
+			}
 		}
 	}
 
@@ -79,20 +88,7 @@ namespace Systems
 
 
 			std::vector<glm::mat4> tempAnimData;
-			//glm::mat4 i;
-			//
-			//
-			//Uint32 ticks = SDL_GetTicks();
-			//ticks = ticks % 1000;
-			//
-			//tempAnimData.push_back(glm::translate(i, { 0, 0, glm::sin( (ticks/1000.0f) * glm::two_pi<float>() + glm::two_pi<float>() * 0 / 3.f) * .3f }));
-			//tempAnimData.push_back(glm::translate(i, { 0, 0, glm::sin( (ticks/1000.0f) * glm::two_pi<float>() + glm::two_pi<float>() * 1 / 3.f) * .3f }));
-			//tempAnimData.push_back(glm::translate(i, { 0, 0, glm::sin( (ticks/1000.0f) * glm::two_pi<float>() + glm::two_pi<float>() * 2 / 3.f) * .3f }));
-			//tempAnimData.push_back(glm::translate(i, { 0, 0, glm::sin( (ticks/1000.0f) * glm::two_pi<float>() + glm::two_pi<float>() * 3 / 3.f) * .3f }));
-
-
-
-					CalculateBones(renderData, deltaTime, tempAnimData);
+			CalculateBones(renderData, deltaTime, tempAnimData);
 
 			shader->SetUniform("model", model);
 			shader->SetUniform("bone", *tempAnimData.data(), 4);

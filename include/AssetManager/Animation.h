@@ -22,7 +22,7 @@ namespace AssetManager
 		unsigned numBones;
 		unsigned numKeyframes;
 		std::vector<std::vector<Keyframe>> keyframes;
-		std::vector<int> heirarchy;
+		std::vector<int> hierarchy;
 	public:
 		Animation(std::istream* buffer, const std::string& filename, const void* userData);
 		~Animation();
@@ -31,6 +31,7 @@ namespace AssetManager
 		void Unload();
 
 		const std::vector<std::vector<Keyframe>>& GetKeyframes() const;
+		const std::vector<int> Animation::GetHierarchy() const;
 		unsigned GetNumBones() const;
 		unsigned GetNumKeyframes() const;
 	};

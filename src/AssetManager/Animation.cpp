@@ -18,8 +18,8 @@ namespace AssetManager
 		*buffer >> numBones >> numKeyframes;
 
 		//Reserve and read the heirarchy list
-		heirarchy.resize(numBones);
-		for (auto& it: heirarchy)
+		hierarchy.resize(numBones);
+		for (auto& it: hierarchy)
 			*buffer >> it;
 
 		//Reserve space for all the keyframes and bones
@@ -55,12 +55,17 @@ namespace AssetManager
 	void Animation::Unload()
 	{
 		keyframes.clear();
-		heirarchy.clear();
+		hierarchy.clear();
 	}
 
 	const std::vector<std::vector<Animation::Keyframe>>& Animation::GetKeyframes() const
 	{
 		return keyframes;
+	}
+
+	const std::vector<int> Animation::GetHierarchy() const
+	{
+		return hierarchy;
 	}
 
 	unsigned Animation::GetNumBones() const

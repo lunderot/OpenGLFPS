@@ -57,7 +57,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	};
 	kult::add<Component::AnimatedRender>(animation) = {
 		animatedMeshManager.Get("quad.obj"),
-		textureManager.Get("missing.raw"),
+		textureManager.Get("missing.rgba"),
 		animationManager.Get("move.txt")
 	};
 }
