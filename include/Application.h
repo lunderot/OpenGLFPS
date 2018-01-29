@@ -28,9 +28,13 @@ private:
 	AssetManager::AssetManager<AssetManager::Scene, AssetManager::Scene::UserData> sceneManager;
 	AudioPlayer audioPlayer;
 	AssetManager::Shader* shader;
+	AssetManager::Shader* laserShader;
 
 	kult::entity camera;
 	kult::entity light;
+
+	GLuint laservbo;
+	GLuint laservao;
 public:
 	Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]);
 	virtual ~Application();

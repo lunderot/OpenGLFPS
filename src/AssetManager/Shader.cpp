@@ -1,6 +1,7 @@
 #include "AssetManager/Shader.h"
 
 #include <iostream>
+#include <vector>
 #ifdef _WIN32
 	#include <SDL_assert.h>
 #else
@@ -68,20 +69,27 @@ namespace AssetManager
 		glUniformMatrix4fv(glGetUniformLocation(program, name), count, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	GLuint Shader::CreateShader(const std::string& content, GLenum shaderType)
+	GLuint Shader::CreateShader(const std::string& content, GLenum shaderType, const std::string& begin, const std::string& end)
 	{
-		GLuint shader = glCreateShader(shaderType);
+		size_t first, last;
+		GLuint shader = 0;
+		first = content.find(begin);
+		last = content.find(end);
 
-		const GLchar* shaderSource[1];
-		GLint shaderSourceLength[1];
-		shaderSource[0] = content.c_str();
-		shaderSourceLength[0] = content.length();
+		if (first != std::string::npos && last != std::string::npos)
+		{
+			first += begin.size();
 
-		glShaderSource(shader, 1, shaderSource, shaderSourceLength);
-		glCompileShader(shader);
+			shader = glCreateShader(shaderType);
 
-		CheckShaderError(shader, GL_COMPILE_STATUS, "Failed to compile shader");
+			const GLchar* shaderSource[1] = { content.data() + first };
+			GLint shaderSourceLength[1] = { last - first };
 
+			glShaderSource(shader, 1, shaderSource, shaderSourceLength);
+			glCompileShader(shader);
+
+			CheckShaderError(shader, GL_COMPILE_STATUS, "Failed to compile shader");
+		}
 		return shader;
 	}
 
@@ -115,22 +123,27 @@ namespace AssetManager
 
 	void Shader::Load(std::istream* buffer, const std::string& filename, const void* userData)
 	{
-		unsigned first, last;
-
 		std::string content((std::istreambuf_iterator<char>(*buffer)), (std::istreambuf_iterator<char>()));
-
-		first = content.find("<<<VS") + 5;
-		last = content.find("VS>>>");
-		shader[0] = CreateShader(content.substr(first, last - first), GL_VERTEX_SHADER);
-
-		first = content.find("<<<FS") + 5;
-		last = content.find("FS>>>");
-		shader[1] = CreateShader(content.substr(first, last - first), GL_FRAGMENT_SHADER);
+		GLuint shader;
+		std::vector<GLuint> shaders;
 
 		program = glCreateProgram();
-		for (int i = 0; i < NUM_SHADERS; i++)
+		
+		shaders.push_back(shader = CreateShader(content, GL_VERTEX_SHADER, "<<<VS", "VS>>>"));
+		if (shader != 0)
 		{
-			glAttachShader(program, shader[i]);
+			glAttachShader(program, shader);
+		}
+		shaders.push_back(shader = CreateShader(content, GL_FRAGMENT_SHADER, "<<<FS", "FS>>>"));
+		if (shader != 0)
+		{
+			glAttachShader(program, shader);
+		}
+
+		shaders.push_back(shader = CreateShader(content, GL_GEOMETRY_SHADER, "<<<GS", "GS>>>"));
+		if (shader != 0)
+		{
+			glAttachShader(program, shader);
 		}
 
 		glLinkProgram(program);
@@ -138,15 +151,16 @@ namespace AssetManager
 
 		glValidateProgram(program);
 		CheckProgramError(program, GL_VALIDATE_STATUS, "Program is not valid");
+
+		for (auto s: shaders)
+		{
+			glDetachShader(program, s);
+			glDeleteShader(s);
+		}
 	}
 
 	void Shader::Unload()
 	{
-		for (int i = 0; i < NUM_SHADERS; i++)
-		{
-			glDetachShader(program, shader[i]);
-			glDeleteShader(shader[i]);
-		}
 		glDeleteProgram(program);
 	}
 }

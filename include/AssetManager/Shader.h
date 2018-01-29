@@ -13,12 +13,10 @@ namespace AssetManager
 	class Shader
 	{
 	private:
-		static const unsigned int NUM_SHADERS = 2;
 		GLuint program;
-		GLuint shader[NUM_SHADERS];
 
 	private:
-		GLuint CreateShader(const std::string& content, GLenum shaderType);
+		GLuint CreateShader(const std::string& content, GLenum shaderType, const std::string& begin, const std::string& end);
 
 		void CheckShaderError(GLuint shader, GLuint flag, const std::string& errorMessage);
 		void CheckProgramError(GLuint program, GLuint flag, const std::string& errorMessage);

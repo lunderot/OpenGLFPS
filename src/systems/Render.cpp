@@ -59,4 +59,11 @@ namespace Systems
 			glDrawArrays(GL_TRIANGLES, 0, renderData.mesh->GetVertexCount());
 		}
 	}
+
+	void RenderLaser(AssetManager::Shader* shader, kult::entity camera, glm::ivec2 screenSize, glm::f32 fov, glm::f32 near, glm::f32 far, GLuint vao)
+	{
+		shader->Use();
+		glBindVertexArray(vao);
+		glDrawArrays(GL_POINTS, 0, 4);
+	}
 }

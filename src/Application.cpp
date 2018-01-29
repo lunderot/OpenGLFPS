@@ -17,6 +17,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	sceneManagerUserData{&meshManager, &textureManager},
 	sceneManager("../data/scenes/", &sceneManagerUserData),
 	shader(shaderManager.Get("default.shader")),
+	laserShader(shaderManager.Get("laser.shader")),
 	audioPlayer("../data/audio/")
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -44,6 +45,29 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	};
 	sceneManager.Get("scene.txt");
 	sceneManager.Get("floor.txt");
+
+
+	//Generate a vertex buffer with 2 points for lasers
+	glGenBuffers(1, &laservbo);
+
+	float points[] = {
+		-0.45f,  0.45f,
+		0.45f,  0.45f,
+		0.45f, -0.45f,
+		-0.45f, -0.45f,
+	};
+
+	glBindBuffer(GL_ARRAY_BUFFER, laservbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+
+	// Create VAO
+	glGenVertexArrays(1, &laservao);
+	glBindVertexArray(laservao);
+
+	// Specify layout of point data
+	GLint posAttrib = 0;
+	glEnableVertexAttribArray(posAttrib);
+	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
 
@@ -81,4 +105,5 @@ void Application::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	Systems::Render(shader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f);
+	Systems::RenderLaser(laserShader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f, laservao);
 }
