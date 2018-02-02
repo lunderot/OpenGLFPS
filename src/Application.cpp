@@ -51,10 +51,8 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	glGenBuffers(1, &laservbo);
 
 	float points[] = {
-		-0.45f,  0.45f,
-		0.45f,  0.45f,
-		0.45f, -0.45f,
-		-0.45f, -0.45f,
+		0.0f,  0.0f, 0.0f, 
+		1.0f, 0.0f, 0.0f
 	};
 
 	glBindBuffer(GL_ARRAY_BUFFER, laservbo);
@@ -67,7 +65,7 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	// Specify layout of point data
 	GLint posAttrib = 0;
 	glEnableVertexAttribArray(posAttrib);
-	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
 

@@ -1,15 +1,29 @@
 <<<GS
 	#version 330
 
-	layout(points) in;
-	layout(line_strip, max_vertices = 2) out;
+	uniform mat4 projview;
+	uniform mat4 model;
+	uniform vec3 campos;
+
+	layout(lines) in;
+	layout(triangle_strip, max_vertices = 4) out;
 
 	void main()
 	{
-		gl_Position = gl_in[0].gl_Position + vec4(-0.1, 0.0, 0.0, 0.0);
+		vec4 particleToCam = vec4(campos, 1) - model * gl_in[0].gl_Position;
+		vec4 up = gl_in[1].gl_Position - gl_in[0].gl_Position;
+		vec4 right = vec4(normalize(cross(particleToCam.xyz, up.xyz)), 0);
+
+		gl_Position = projview * model * vec4(gl_in[0].gl_Position - up - right);
 		EmitVertex();
 
-		gl_Position = gl_in[0].gl_Position + vec4(0.1, 0.0, 0.0, 0.0);
+		gl_Position = projview * model * vec4(gl_in[0].gl_Position + up - right);
+		EmitVertex();
+
+		gl_Position = projview * model * vec4(gl_in[0].gl_Position - up + right);
+		EmitVertex();
+
+		gl_Position = projview * model * vec4(gl_in[0].gl_Position + up + right);
 		EmitVertex();
 
 		EndPrimitive();

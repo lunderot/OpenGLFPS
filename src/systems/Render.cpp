@@ -62,8 +62,23 @@ namespace Systems
 
 	void RenderLaser(AssetManager::Shader* shader, kult::entity camera, glm::ivec2 screenSize, glm::f32 fov, glm::f32 near, glm::f32 far, GLuint vao)
 	{
+		auto& cameraPositionData = get<Component::Position>(camera);
+		auto& cameraData = get<Component::Freelook>(camera);
+
+		glm::mat4 projection = glm::perspective(glm::radians(fov), (glm::f32)screenSize.x / screenSize.y, near, far);
+		glm::vec3 lookDirection = cameraPositionData.rot * glm::vec3(1, 0, 0);
+		glm::vec3 up = cameraPositionData.rot * glm::vec3(0, 0, 1);
+		glm::mat4 view = glm::lookAt(cameraPositionData.pos, cameraPositionData.pos + lookDirection, up);
+
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(5, 0, 0.5f));
+
 		shader->Use();
+		shader->SetUniform("projview", projection * view);
+		shader->SetUniform("campos", cameraPositionData.pos);
+		shader->SetUniform("model", model);
+
 		glBindVertexArray(vao);
-		glDrawArrays(GL_POINTS, 0, 4);
+		glDrawArrays(GL_LINES, 0, 2);
 	}
 }
