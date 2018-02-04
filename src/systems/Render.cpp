@@ -71,14 +71,16 @@ namespace Systems
 		glm::mat4 view = glm::lookAt(cameraPositionData.pos, cameraPositionData.pos + lookDirection, up);
 
 		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(5, 0, 0.5f));
+		model = glm::translate(model, glm::vec3(8, 0, 2));
 
 		shader->Use();
 		shader->SetUniform("projview", projection * view);
 		shader->SetUniform("campos", cameraPositionData.pos);
 		shader->SetUniform("model", model);
 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glBindVertexArray(vao);
 		glDrawArrays(GL_LINES, 0, 2);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
