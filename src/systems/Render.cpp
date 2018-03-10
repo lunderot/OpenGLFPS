@@ -60,7 +60,7 @@ namespace Systems
 		}
 	}
 
-	void RenderLaser(AssetManager::Shader* shader, kult::entity camera, glm::ivec2 screenSize, glm::f32 fov, glm::f32 near, glm::f32 far, GLuint vao)
+	void RenderLaser(AssetManager::Shader* shader, kult::entity camera, glm::ivec2 screenSize, glm::f32 fov, glm::f32 near, glm::f32 far, GLuint vao, GLuint texture)
 	{
 		auto& cameraPositionData = get<Component::Position>(camera);
 		auto& cameraData = get<Component::Freelook>(camera);
@@ -78,9 +78,13 @@ namespace Systems
 		shader->SetUniform("campos", cameraPositionData.pos);
 		shader->SetUniform("model", model);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
+
 		glBindVertexArray(vao);
 		glDrawArrays(GL_LINES, 0, 2);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

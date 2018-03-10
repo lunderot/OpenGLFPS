@@ -103,5 +103,5 @@ void Application::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	Systems::Render(shader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f);
-	Systems::RenderLaser(laserShader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f, laservao);
+	Systems::RenderLaser(laserShader, camera, GetScreenSize(), 59.0f, 0.1f, 1000.0f, laservao, textureManager.Get("laser.rgba")->GetTexture());
 }
