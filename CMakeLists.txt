@@ -19,6 +19,7 @@ include_directories(
 	"${PROJECT_SOURCE_DIR}/external/SDL/include"
 	"${PROJECT_SOURCE_DIR}/external/openal/include"
 	"${PROJECT_SOURCE_DIR}/external/stb"
+	"${PROJECT_SOURCE_DIR}/external/miniz"
 	)
 
 add_executable(
@@ -44,6 +45,7 @@ add_executable(
 	src/systems/Render.cpp
 	src/systems/Listener.cpp
 	
+	external/miniz/miniz.c
 )
 
 target_link_libraries(

@@ -8,6 +8,8 @@
 #include <fstream>
 #include <stdexcept>
 
+#include "Util.h"
+
 namespace AssetManager
 {
 	class Shader
@@ -24,7 +26,7 @@ namespace AssetManager
 		void CheckProgramError(GLuint program, GLuint flag, const std::string& errorMessage);
 
 	public:
-		Shader(std::istream* buffer, const std::string& filename, const void* userData);
+		Shader(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		~Shader();
 
 		bool IsInUse() const;
@@ -37,7 +39,7 @@ namespace AssetManager
 		void SetUniform(const GLchar* name, const glm::vec4& vector, unsigned int count = 1);
 		void SetUniform(const GLchar* name, const glm::mat4& matrix, unsigned int count = 1);
 
-		void Load(std::istream* buffer, const std::string& filename, const void* userData);
+		void Load(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		void Unload();
 	};
 }

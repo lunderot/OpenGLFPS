@@ -4,9 +4,9 @@
 
 namespace AssetManager
 {
-	Config::Config(std::istream* buffer, const std::string& filename, const void* userData)
+	Config::Config(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
-		Load(buffer, filename, userData);
+		Load(data, size, filename, userData);
 	}
 
 	Config::~Config()
@@ -14,17 +14,18 @@ namespace AssetManager
 		Unload();
 	}
 
-	void Config::Load(std::istream* buffer, const std::string& filename, const void* userData)
+	void Config::Load(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
-		std::string str((std::istreambuf_iterator<char>(*buffer)), std::istreambuf_iterator<char>());
+		std::string str(reinterpret_cast<char*>(data), size);
+
 		switch (filename[0])
 		{
 		case 'i':
 			integerValue = std::stoi(str);
 			break;
 		case 's':
-			std::memset(data, '\0', 64);
-			std::memcpy(data, str.data(), 64);
+			std::memset(stringValue, '\0', 64);
+			std::memcpy(stringValue, str.data(), 64);
 			break;
 		case 'f':
 			floatValue = std::stof(str);
