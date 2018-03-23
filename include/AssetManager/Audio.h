@@ -13,11 +13,11 @@ namespace AssetManager
 	private:
 		ALuint buffer;
 	public:
-		Audio(std::istream* buffer, const std::string& filename, const void* userData);
+		Audio(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		~Audio();
 		ALuint GetBuffer() const;
 
-		void Load(std::istream* buffer, const std::string& filename, const void* userData);
+		void Load(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		void Unload();
 	};
 }

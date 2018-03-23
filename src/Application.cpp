@@ -10,15 +10,15 @@
 
 Application::Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]):
 	System(screenSize, title, argc, argv),
-	meshManager("../data/models/"),
-	shaderManager("../data/shaders/"),
-	textureManager("../data/textures/"),
-	configManager("../data/config/"),
-	sceneManagerUserData{&meshManager, &textureManager},
-	sceneManager("../data/scenes/", &sceneManagerUserData),
+	meshManager("../data/models.zip"),
+	shaderManager("../data/shaders.zip"),
+	textureManager("../data/textures.zip"),
+	configManager("../data/config.zip"),
+	sceneManagerUserData{ &meshManager, &textureManager },
+	sceneManager("../data/scenes.zip", &sceneManagerUserData),
 	shader(shaderManager.Get("default.shader")),
 	laserShader(shaderManager.Get("laser.shader")),
-	audioPlayer("../data/audio/")
+	audioPlayer("../data/audio.zip")
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -27,11 +27,11 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 		glm::vec3(0, 0, 2)
 	};
 	kult::add<Component::Freelook>(camera) = {
-		configManager.Get("camera/fSensitivity")->GetFloat()
+		configManager.Get("fSensitivity")->GetFloat()
 	};
 	kult::add<Component::Physics>(camera);
 	kult::add<Component::Freemove>(camera) = {
-		configManager.Get("camera/fSpeed")->GetFloat()
+		configManager.Get("fSpeed")->GetFloat()
 	};
 	kult::add<Component::Listener>(camera);
 

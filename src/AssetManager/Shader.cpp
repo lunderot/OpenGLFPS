@@ -10,9 +10,9 @@
 
 namespace AssetManager
 {
-	Shader::Shader(std::istream* buffer, const std::string& filename, const void* userData)
+	Shader::Shader(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
-		Load(buffer, filename, userData);
+		Load(data, size, filename, userData);
 	}
 
 	Shader::~Shader()
@@ -121,9 +121,11 @@ namespace AssetManager
 		}
 	}
 
-	void Shader::Load(std::istream* buffer, const std::string& filename, const void* userData)
+	void Shader::Load(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
-		std::string content((std::istreambuf_iterator<char>(*buffer)), (std::istreambuf_iterator<char>()));
+		MemoryBuffer buf(data, size);
+		std::istream buffer(&buf);
+		std::string content((std::istreambuf_iterator<char>(buffer)), (std::istreambuf_iterator<char>()));
 		GLuint shader;
 		std::vector<GLuint> shaders;
 

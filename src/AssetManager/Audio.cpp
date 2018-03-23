@@ -4,9 +4,9 @@
 
 namespace AssetManager
 {
-	Audio::Audio(std::istream* buffer, const std::string& filename, const void* userData)
+	Audio::Audio(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
-		Load(buffer, filename, userData);
+		Load(data, size, filename, userData);
 	}
 
 	Audio::~Audio()
@@ -19,17 +19,16 @@ namespace AssetManager
 		return buffer;
 	}
 
-	void Audio::Load(std::istream* buffer, const std::string& filename, const void* userData)
+	void Audio::Load(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
-		std::string str((std::istreambuf_iterator<char>(*buffer)), std::istreambuf_iterator<char>());
 		int channels;
 		int sampleRate;
 		short* audioBuffer;
 		int dataLength;
-		dataLength = stb_vorbis_decode_memory((const uint8*)str.data(), str.size(), &channels, &sampleRate, &audioBuffer);
+		dataLength = stb_vorbis_decode_memory(static_cast<const uint8*>(data), size, &channels, &sampleRate, &audioBuffer);
 
-		alGenBuffers(1, &this->buffer);
-		alBufferData(this->buffer, AL_FORMAT_MONO16, audioBuffer, dataLength * sizeof(ALshort), sampleRate);
+		alGenBuffers(1, &buffer);
+		alBufferData(buffer, AL_FORMAT_MONO16, audioBuffer, dataLength * sizeof(ALshort), sampleRate);
 	}
 
 	void Audio::Unload()

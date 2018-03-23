@@ -5,9 +5,9 @@
 
 namespace AssetManager
 {
-	Scene::Scene(std::istream * buffer, const std::string & filename, const UserData* userData)
+	Scene::Scene(unsigned char* data, size_t size, const std::string & filename, const UserData* userData)
 	{
-		Load(buffer, filename, userData);
+		Load(data, size, filename, userData);
 	}
 
 	Scene::~Scene()
@@ -15,9 +15,12 @@ namespace AssetManager
 		Unload();
 	}
 
-	void Scene::Load(std::istream * buffer, const std::string & filename, const UserData* userData)
+	void Scene::Load(unsigned char* data, size_t size, const std::string & filename, const UserData* userData)
 	{
-		while (!buffer->eof())
+		MemoryBuffer buf(data, size);
+		std::istream buffer(&buf);
+
+		while (!buffer.eof())
 		{
 			std::string filename, textureFilename;
 			bool scaleUv;
@@ -25,7 +28,7 @@ namespace AssetManager
 			glm::vec3 scale;
 			glm::vec3 rot;
 
-			*buffer	>> filename
+			buffer	>> filename
 					>> textureFilename
 					>> scaleUv
 					>> pos.x >> pos.y >> pos.z
