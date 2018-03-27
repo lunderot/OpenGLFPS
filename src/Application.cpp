@@ -3,6 +3,7 @@
 #include "systems/Physics.h"
 #include "systems/Render.h"
 #include "systems/Freelook.h"
+#include "systems/Draglook.h"
 #include "systems/Freemove.h"
 #include "systems/Listener.h"
 
@@ -19,31 +20,41 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	shader(shaderManager.Get("default.shader")),
 	audioPlayer("../data/audio.zip")
 {
-	SDL_SetRelativeMouseMode(SDL_TRUE);
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	//SDL_SetRelativeMouseMode(SDL_TRUE);
+
+	glClearColor(0.0f, 0.6f, 0.0f, 1.0f);
 
 	kult::add<Component::Position>(camera) = {
 		glm::vec3(0, 0, 2)
 	};
-	kult::add<Component::Freelook>(camera) = {
-		configManager.Get("fSensitivity")->GetFloat()
+	//kult::add<Component::Freemove>(camera) = {
+	//	configManager.Get("fSpeed")->GetFloat(),
+	//	{
+	//		configManager.Get("kForward")->GetScancode(),
+	//		configManager.Get("kBackward")->GetScancode(),
+	//		configManager.Get("kLeft")->GetScancode(),
+	//		configManager.Get("kRight")->GetScancode(),
+	//		configManager.Get("kFaster")->GetScancode()
+	//	}
+	//};
+	kult::add<Component::Draglook>(camera) = {
+		configManager.Get("fSensitivity")->GetFloat(),
+		glm::vec3(0, 0, 0),
+		5.0f,
+		SDL_BUTTON_LMASK
 	};
 	kult::add<Component::Physics>(camera);
-	kult::add<Component::Freemove>(camera) = {
-		configManager.Get("fSpeed")->GetFloat()
-	};
 	kult::add<Component::Listener>(camera);
 
 	kult::add<Component::Position>(light) = {
-		glm::vec3(1, 0, 1),
+		glm::vec3(0, 0, 1),
 		glm::quat(glm::vec3(0, 0, 0)),
 		glm::vec3(1, 1, 1)
 	};
 	kult::add<Component::Light>(light) = {
 		glm::vec3(1, 1, 1)
 	};
-	sceneManager.Get("scene.txt");
-	sceneManager.Get("floor.txt");
+	sceneManager.Get("tictactoe.txt");
 }
 
 
@@ -57,17 +68,21 @@ void Application::HandleEvent(SDL_Event& event)
 {
 	switch (event.type)
 	{
-	case SDL_MOUSEBUTTONDOWN:
+	case SDL_MOUSEMOTION:
 	{
-		std::cout << "Mouse button down" << std::endl;
-		audioPlayer.Play("bep", "beep.ogg", { 0, 0, 5 });
-		kult::get<Component::Position>(light).pos = kult::get<Component::Position>(camera).pos;
+		glm::vec2 m(event.motion.x, event.motion.y);
+
+		if (event.motion.state & SDL_BUTTON_LMASK && m.length() > 1 && !audioPlayer.IsPlaying("cameraClick"))
+		{
+			audioPlayer.Play("cameraClick", "camera.ogg", { 0, 0, 0 }, { 0, 0, 0 });
+		}
 		break;
 	}
 	default:
 		break;
 	}
 	Systems::HandleFreelookEvent(event);
+	Systems::HandleDraglookEvent(event);
 }
 
 void Application::Update(float deltaTime)

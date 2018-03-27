@@ -5,6 +5,8 @@
 #include <cstring>
 #include <stdexcept>
 
+#include "SDL.h"
+
 namespace AssetManager
 {
 	class Config
@@ -15,6 +17,7 @@ namespace AssetManager
 			char stringValue[64];
 			float floatValue;
 			int integerValue;
+			SDL_Scancode scancodeValue;
 		};
 	public:
 		Config(unsigned char* data, size_t size, const std::string& filename, const void* userData);
@@ -33,6 +36,11 @@ namespace AssetManager
 		int GetInt()
 		{
 			return integerValue;
+		}
+
+		SDL_Scancode GetScancode()
+		{
+			return scancodeValue;
 		}
 
 		void Load(unsigned char* data, size_t size, const std::string& filename, const void* userData);

@@ -33,6 +33,13 @@ void AudioPlayer::Play(const std::string& name, const std::string& filename, glm
 	alSourcePlay(source);
 }
 
+bool AudioPlayer::IsPlaying(const std::string& name)
+{
+	int value;
+	alGetSourcei(GetSource(name), AL_SOURCE_STATE, &value);
+	return value == AL_PLAYING;
+}
+
 void AudioPlayer::Update(ALuint source, glm::vec3 pos, glm::vec3 vel, bool loop, float pitch, float gain)
 {
 	alSourcefv(source, AL_POSITION, glm::value_ptr(pos));

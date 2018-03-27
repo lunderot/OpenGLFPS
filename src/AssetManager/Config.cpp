@@ -20,15 +20,18 @@ namespace AssetManager
 
 		switch (filename[0])
 		{
-		case 'i':
+		case 'i': //Integer
 			integerValue = std::stoi(str);
 			break;
-		case 's':
+		case 's': //String
 			std::memset(stringValue, '\0', 64);
 			std::memcpy(stringValue, str.data(), 64);
 			break;
-		case 'f':
+		case 'f': //Float
 			floatValue = std::stof(str);
+			break;
+		case 'k': //Key
+			scancodeValue = SDL_GetScancodeFromName(str.c_str());
 			break;
 		default:
 			throw std::runtime_error("Invalid config variable type");

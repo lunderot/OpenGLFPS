@@ -40,6 +40,7 @@ add_executable(
 	src/AssetManager/Audio.cpp
 	
 	src/systems/Freelook.cpp
+	src/systems/Draglook.cpp
 	src/systems/Freemove.cpp
 	src/systems/Physics.cpp
 	src/systems/Render.cpp
