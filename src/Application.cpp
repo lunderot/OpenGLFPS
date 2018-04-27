@@ -84,6 +84,17 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	};
 	ghost = &marker[0];
 	ghostid = false;
+	score[0] = 0;
+	score[1] = 0;
+
+	mask[0] = 0b111'000'000;
+	mask[1] = 0b000'111'000;
+	mask[2] = 0b000'000'111;
+	mask[3] = 0b100'100'100;
+	mask[4] = 0b010'010'010;
+	mask[5] = 0b001'001'001;
+	mask[6] = 0b100'010'001;
+	mask[7] = 0b001'010'100;
 }
 
 
@@ -141,13 +152,19 @@ void Application::PlacementLogic(SDL_Event& event)
 			//Copy the ghost marker entity
 			kult::entity e;
 			kult::copy(e, *ghost);
-			//Swap the current player turn
-			ghostid = !ghostid;
-			ghost = &marker[ghostid];
+			
 			//Update the board
 			auto pos = kult::get<Component::Position>(e).pos;
 			int boardpos = WorldPositionToBoardPosition(pos);
 			board[ghostid][boardpos] = true;
+
+			//Swap the current player turn
+			ghostid = !ghostid;
+			ghost = &marker[ghostid];
+
+			CalculateScore();
+			std::cout << "score[0] = " << score[0] << std::endl;
+			std::cout << "score[1] = " << score[1] << std::endl;
 		}
 		break;
 	}
@@ -155,6 +172,22 @@ void Application::PlacementLogic(SDL_Event& event)
 		break;
 	}
 }
+
+void Application::CalculateScore()
+{
+	for (size_t i = 0; i < 2; i++)
+	{
+		score[i] = 0;
+		for (size_t j = 0; j < 8; j++)
+		{
+			if ((board[i].to_ulong() & mask[j]) == mask[j])
+			{
+				score[i]++;
+			}
+		}
+	}
+}
+
 
 glm::vec3 Application::GetRayFromMouse(glm::vec2 mouse, kult::entity camera)
 {

@@ -44,9 +44,13 @@ private:
 	kult::entity* ghost;
 
 	std::bitset<9> board[2];
+	int score[2];
+
+	unsigned long mask[8];
 private:
 	//Game logic
 	void PlacementLogic(SDL_Event & event);
+	void CalculateScore();
 
 	//Utility
 	glm::vec3 GetRayFromMouse(glm::vec2 mouse, kult::entity camera);
