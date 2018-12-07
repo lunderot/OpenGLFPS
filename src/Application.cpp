@@ -6,6 +6,7 @@
 #include "systems/Draglook.h"
 #include "systems/Freemove.h"
 #include "systems/Listener.h"
+#include "systems/MenuRender.h"
 
 Application::Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]):
 	System(screenSize, title, argc, argv),
@@ -19,7 +20,9 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	sceneManagerUserData{ &meshManager, &textureManager },
 	sceneManager("../data/scenes.zip", &sceneManagerUserData),
 	shader(shaderManager.Get("default.shader")),
-	audioPlayer("../data/audio.zip")
+	menuShader(shaderManager.Get("menu.shader")),
+	audioPlayer("../data/audio.zip"),
+	state(MENU)
 {
 	board[0].reset();
 	board[1].reset();
@@ -95,6 +98,43 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	mask[5] = 0b001'001'001;
 	mask[6] = 0b100'010'001;
 	mask[7] = 0b001'010'100;
+
+
+	glm::vec3 menuOffset = glm::vec3(50, 250, 0);
+	glm::vec3 menuCenterOffset = glm::vec3(250.0f / 2.0f, 80.0f / 2.0f, 0.0f);
+
+	kult::add<Component::Position>(menuStart) = {
+		glm::vec3(0, 80*0, 0) + menuOffset + menuCenterOffset,
+		glm::quat(glm::vec3(0, 0, 0)),
+		glm::vec3(250, 80, 1)
+	};
+	kult::add<Component::MenuRender>(menuStart) = {
+		meshManager.Get("quad.obj"),
+		textureManager.Get("start.rgba"),
+		false
+	};
+
+	kult::add<Component::Position>(menuOptions) = {
+		glm::vec3(0, 80*1, 0) + menuOffset + menuCenterOffset,
+		glm::quat(glm::vec3(0, 0, 0)),
+		glm::vec3(250, 80, 1)
+	};
+	kult::add<Component::MenuRender>(menuOptions) = {
+		meshManager.Get("quad.obj"),
+		textureManager.Get("options.rgba"),
+		false
+	};
+
+	kult::add<Component::Position>(menuExit) = {
+		glm::vec3(0, 80*2, 0) + menuOffset + menuCenterOffset,
+		glm::quat(glm::vec3(0, 0, 0)),
+		glm::vec3(250, 80, 1)
+	};
+	kult::add<Component::MenuRender>(menuExit) = {
+		meshManager.Get("quad.obj"),
+		textureManager.Get("exit.rgba"),
+		false
+	};
 }
 
 
@@ -152,7 +192,8 @@ void Application::PlacementLogic(SDL_Event& event)
 			//Copy the ghost marker entity
 			kult::entity e;
 			kult::copy(e, *ghost);
-			
+			kult::add<kult::component<'mark', bool>>(e);
+
 			//Update the board
 			auto pos = kult::get<Component::Position>(e).pos;
 			int boardpos = WorldPositionToBoardPosition(pos);
@@ -165,6 +206,14 @@ void Application::PlacementLogic(SDL_Event& event)
 			CalculateScore();
 			std::cout << "score[0] = " << score[0] << std::endl;
 			std::cout << "score[1] = " << score[1] << std::endl;
+		}
+		break;
+	}
+	case SDL_KEYDOWN:
+	{
+		if (event.key.keysym.sym == SDLK_0)
+		{
+			ResetBoard();
 		}
 		break;
 	}
@@ -186,6 +235,22 @@ void Application::CalculateScore()
 			}
 		}
 	}
+}
+
+void Application::ResetBoard()
+{
+	for (auto &id : kult::join<kult::component<'mark', bool>>())
+	{
+		kult::purge(id);
+	}
+	board[0].reset();
+	board[1].reset();
+	kult::get<Component::Position>(marker[0]).pos = glm::vec3(0, 0, -10000);
+	kult::get<Component::Position>(marker[1]).pos = glm::vec3(0, 0, -10000);
+	ghost = &marker[0];
+	ghostid = false;
+	score[0] = 0;
+	score[1] = 0;
 }
 
 
@@ -232,5 +297,15 @@ void Application::Update(float deltaTime)
 void Application::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	Systems::Render(shader, camera, GetScreenSize(), fov, near, far);
+
+	switch (state)
+	{
+	case Application::MENU:
+		Systems::MenuRender(menuShader, GetScreenSize(), static_cast<bool>(configManager.Get("iMenuDebug")->GetInt()));
+	case Application::GAME:
+		Systems::Render(shader, camera, GetScreenSize(), fov, near, far);
+		break;
+	default:
+		break;
+	}
 }

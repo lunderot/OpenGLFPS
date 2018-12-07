@@ -30,7 +30,9 @@ private:
 	AssetManager::Scene::UserData sceneManagerUserData;
 	AssetManager::AssetManager<AssetManager::Scene, AssetManager::Scene::UserData> sceneManager;
 	AudioPlayer audioPlayer;
+
 	AssetManager::Shader* shader;
+	AssetManager::Shader* menuShader;
 
 	glm::f32 fov;
 	glm::f32 near;
@@ -38,6 +40,10 @@ private:
 
 	kult::entity camera;
 	kult::entity light;
+
+	kult::entity menuStart;
+	kult::entity menuOptions;
+	kult::entity menuExit;
 
 	kult::entity marker[2];
 	bool ghostid;
@@ -47,10 +53,18 @@ private:
 	int score[2];
 
 	unsigned long mask[8];
+
+	enum STATE
+	{
+		MENU,
+		GAME,
+		EXIT
+	} state;
 private:
 	//Game logic
 	void PlacementLogic(SDL_Event & event);
 	void CalculateScore();
+	void ResetBoard();
 
 	//Utility
 	glm::vec3 GetRayFromMouse(glm::vec2 mouse, kult::entity camera);

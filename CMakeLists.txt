@@ -45,6 +45,7 @@ add_executable(
 	src/systems/Physics.cpp
 	src/systems/Render.cpp
 	src/systems/Listener.cpp
+	src/systems/MenuRender.cpp
 	
 	external/miniz/miniz.c
 )
