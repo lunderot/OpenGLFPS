@@ -32,40 +32,40 @@ namespace AssetManager
 		glUseProgram(program);
 	}
 
-	void Shader::SetUniform(const GLchar* name, const glm::int32& scalar, unsigned int count)
+	void Shader::SetUniform(const GLchar* name, const glm::int32& scalar, size_t count)
 	{
 		SDL_assert(IsInUse() && "This shader does not match current shader on the GPU");
-		glUniform1iv(glGetUniformLocation(program, name), count, &scalar);
+		glUniform1iv(glGetUniformLocation(program, name), static_cast<GLsizei>(count), &scalar);
 	}
 
-	void Shader::SetUniform(const GLchar* name, const glm::float32& scalar, unsigned int count)
+	void Shader::SetUniform(const GLchar* name, const glm::float32& scalar, size_t count)
 	{
 		SDL_assert(IsInUse() && "This shader does not match current shader on the GPU");
-		glUniform1fv(glGetUniformLocation(program, name), count, &scalar);
+		glUniform1fv(glGetUniformLocation(program, name), static_cast<GLsizei>(count), &scalar);
 	}
 
-	void Shader::SetUniform(const GLchar* name, const glm::vec2& vector, unsigned int count)
+	void Shader::SetUniform(const GLchar* name, const glm::vec2& vector, size_t count)
 	{
 		SDL_assert(IsInUse() && "This shader does not match current shader on the GPU");
-		glUniform2fv(glGetUniformLocation(program, name), count, glm::value_ptr(vector));
+		glUniform2fv(glGetUniformLocation(program, name), static_cast<GLsizei>(count), glm::value_ptr(vector));
 	}
 
-	void Shader::SetUniform(const GLchar* name, const glm::vec3& vector, unsigned int count)
+	void Shader::SetUniform(const GLchar* name, const glm::vec3& vector, size_t count)
 	{
 		SDL_assert(IsInUse() && "This shader does not match current shader on the GPU");
-		glUniform3fv(glGetUniformLocation(program, name), count, glm::value_ptr(vector));
+		glUniform3fv(glGetUniformLocation(program, name), static_cast<GLsizei>(count), glm::value_ptr(vector));
 	}
 
-	void Shader::SetUniform(const GLchar* name, const glm::vec4& vector, unsigned int count)
+	void Shader::SetUniform(const GLchar* name, const glm::vec4& vector, size_t count)
 	{
 		SDL_assert(IsInUse() && "This shader does not match current shader on the GPU");
-		glUniform4fv(glGetUniformLocation(program, name), count, glm::value_ptr(vector));
+		glUniform4fv(glGetUniformLocation(program, name), static_cast<GLsizei>(count), glm::value_ptr(vector));
 	}
 
-	void Shader::SetUniform(const GLchar* name, const glm::mat4& matrix, unsigned int count)
+	void Shader::SetUniform(const GLchar* name, const glm::mat4& matrix, size_t count)
 	{
 		SDL_assert(IsInUse() && "This shader does not match current shader on the GPU");
-		glUniformMatrix4fv(glGetUniformLocation(program, name), count, GL_FALSE, glm::value_ptr(matrix));
+		glUniformMatrix4fv(glGetUniformLocation(program, name), static_cast<GLsizei>(count), GL_FALSE, glm::value_ptr(matrix));
 	}
 
 	GLuint Shader::CreateShader(const std::string& content, GLenum shaderType)
@@ -75,7 +75,7 @@ namespace AssetManager
 		const GLchar* shaderSource[1];
 		GLint shaderSourceLength[1];
 		shaderSource[0] = content.c_str();
-		shaderSourceLength[0] = content.length();
+		shaderSourceLength[0] = static_cast<GLint>(content.length());
 
 		glShaderSource(shader, 1, shaderSource, shaderSourceLength);
 		glCompileShader(shader);
@@ -115,7 +115,7 @@ namespace AssetManager
 
 	void Shader::Load(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
-		unsigned first, last;
+		size_t first, last;
 
 		MemoryBuffer buf(data, size);
 		std::istream buffer(&buf);

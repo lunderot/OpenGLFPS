@@ -22,7 +22,7 @@ namespace AssetManager
 	private:
 		GLuint vbo;
 		GLuint vao;
-		glm::u32 vertexCount;
+		size_t vertexCount;
 
 		void LoadMesh(unsigned char* data, size_t size, std::vector<Vertex>& out);
 	public:
@@ -30,7 +30,7 @@ namespace AssetManager
 		~Mesh();
 		GLuint GetVBO() const;
 		GLuint GetVAO() const;
-		glm::u32 GetVertexCount() const;
+		size_t GetVertexCount() const;
 
 		void Load(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		void Unload();

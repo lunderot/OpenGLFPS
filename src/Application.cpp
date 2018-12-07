@@ -276,7 +276,7 @@ glm::vec3 Application::GetRayFromMouse(glm::vec2 mouse, kult::entity camera)
 
 int Application::WorldPositionToBoardPosition(glm::vec3 world)
 {
-	return (world.x + 1) * 3 + (world.y + 1);
+	return static_cast<int>((world.x + 1) * 3 + (world.y + 1));
 }
 
 
@@ -301,7 +301,7 @@ void Application::Render()
 	switch (state)
 	{
 	case Application::MENU:
-		Systems::MenuRender(menuShader, GetScreenSize(), static_cast<bool>(configManager.Get("iMenuDebug")->GetInt()));
+		Systems::MenuRender(menuShader, GetScreenSize(), configManager.Get("iMenuDebug")->GetInt() == 1);
 	case Application::GAME:
 		Systems::Render(shader, camera, GetScreenSize(), fov, near, far);
 		break;

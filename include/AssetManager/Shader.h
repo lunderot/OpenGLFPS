@@ -32,12 +32,12 @@ namespace AssetManager
 		bool IsInUse() const;
 		void Use() const;
 
-		void SetUniform(const GLchar* name, const glm::int32& scalar, unsigned int count = 1);
-		void SetUniform(const GLchar* name, const glm::float32& scalar, unsigned int count = 1);
-		void SetUniform(const GLchar* name, const glm::vec2& vector, unsigned int count = 1);
-		void SetUniform(const GLchar* name, const glm::vec3& vector, unsigned int count = 1);
-		void SetUniform(const GLchar* name, const glm::vec4& vector, unsigned int count = 1);
-		void SetUniform(const GLchar* name, const glm::mat4& matrix, unsigned int count = 1);
+		void SetUniform(const GLchar* name, const glm::int32& scalar, size_t count = 1);
+		void SetUniform(const GLchar* name, const glm::float32& scalar, size_t count = 1);
+		void SetUniform(const GLchar* name, const glm::vec2& vector, size_t count = 1);
+		void SetUniform(const GLchar* name, const glm::vec3& vector, size_t count = 1);
+		void SetUniform(const GLchar* name, const glm::vec4& vector, size_t count = 1);
+		void SetUniform(const GLchar* name, const glm::mat4& matrix, size_t count = 1);
 
 		void Load(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		void Unload();

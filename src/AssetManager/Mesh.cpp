@@ -113,7 +113,7 @@ namespace AssetManager
 		return vao;
 	}
 
-	glm::u32 Mesh::GetVertexCount() const
+	size_t Mesh::GetVertexCount() const
 	{
 		return vertexCount;
 	}

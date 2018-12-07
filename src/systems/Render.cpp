@@ -26,7 +26,7 @@ namespace Systems
 
 		std::vector<glm::vec3> lights;
 		std::vector<glm::vec3> lightColors;
-		unsigned int lightCount;
+		size_t lightCount;
 
 		for (auto &id: join<Component::Position, Component::Light>())
 		{
@@ -56,7 +56,7 @@ namespace Systems
 			glBindTexture(GL_TEXTURE_2D, renderData.texture->GetTexture());
 			
 			glBindVertexArray(renderData.mesh->GetVAO());
-			glDrawArrays(GL_TRIANGLES, 0, renderData.mesh->GetVertexCount());
+			glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(renderData.mesh->GetVertexCount()));
 		}
 	}
 }
