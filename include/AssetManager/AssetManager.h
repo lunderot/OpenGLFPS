@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <fstream>
+#include <vector>
 
 #include "miniz.h"
 
@@ -54,7 +55,7 @@ namespace AssetManager
 	T* AssetManager<T, U>::Get(const std::string& name)
 	{
 		T* asset = nullptr;
-		std::map<std::string, T*>::iterator it = assets.find(name);
+		typename std::map<std::string, T*>::iterator it = assets.find(name);
 		if (it != assets.end())
 		{
 			//Return the asset if it is already loaded
