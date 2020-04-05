@@ -9,5 +9,5 @@ namespace Component
 			return os << "listener", os;
 		}
 	};
-	using Listener = kult::component<'list', ListenerData>;
+	using Listener = kult::component<0x6c697374 /* list */, ListenerData>;
 }

@@ -81,7 +81,7 @@ namespace AssetManager
 		mz_zip_reader_file_stat(&archive, id, &file_stat);
 		
 		filedata.resize(file_stat.m_uncomp_size);
-		auto result = mz_zip_reader_extract_to_mem(&archive, file_stat.m_file_index, filedata.data(), filedata.capacity(), 0);
+		mz_zip_reader_extract_to_mem(&archive, file_stat.m_file_index, filedata.data(), filedata.capacity(), 0);
 
 		if (!alreadyLoaded)
 		{

@@ -16,5 +16,5 @@ namespace Component
 		}
 	};
 
-	using Position = kult::component<'pos', PositionData>;
+	using Position = kult::component<0x706f73 /* pos */, PositionData>;
 }

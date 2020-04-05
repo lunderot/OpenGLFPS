@@ -13,7 +13,6 @@ namespace Systems
 	void Render(AssetManager::Shader* shader, kult::entity camera, glm::ivec2 screenSize, glm::f32 fov, glm::f32 near, glm::f32 far)
 	{
 		auto& cameraPositionData = get<Component::Position>(camera);
-		auto& cameraData = get<Component::Freelook>(camera);
 
 		glm::mat4 projection = glm::perspective(glm::radians(fov), (glm::f32)screenSize.x / screenSize.y, near, far);
 		glm::vec3 lookDirection = cameraPositionData.rot * glm::vec3(1, 0, 0);

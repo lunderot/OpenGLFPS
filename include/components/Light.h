@@ -13,5 +13,5 @@ namespace Component
 		}
 	};
 
-	using Light = kult::component<'lght', LightData>;
+	using Light = kult::component<0x6c676874 /* lght */, LightData>;
 }

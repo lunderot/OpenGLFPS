@@ -16,8 +16,8 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	configManager("../data/config.zip"),
 	sceneManagerUserData{ &meshManager, &textureManager },
 	sceneManager("../data/scenes.zip", &sceneManagerUserData),
-	shader(shaderManager.Get("default.shader")),
-	audioPlayer("../data/audio.zip")
+	audioPlayer("../data/audio.zip"),
+	shader(shaderManager.Get("default.shader"))
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);

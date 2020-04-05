@@ -130,7 +130,7 @@ namespace AssetManager
 		shader[1] = CreateShader(content.substr(first, last - first), GL_FRAGMENT_SHADER);
 
 		program = glCreateProgram();
-		for (int i = 0; i < NUM_SHADERS; i++)
+		for (unsigned i = 0; i < NUM_SHADERS; i++)
 		{
 			glAttachShader(program, shader[i]);
 		}
@@ -144,7 +144,7 @@ namespace AssetManager
 
 	void Shader::Unload()
 	{
-		for (int i = 0; i < NUM_SHADERS; i++)
+		for (unsigned i = 0; i < NUM_SHADERS; i++)
 		{
 			glDetachShader(program, shader[i]);
 			glDeleteShader(shader[i]);

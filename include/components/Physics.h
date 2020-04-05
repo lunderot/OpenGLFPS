@@ -16,5 +16,5 @@ namespace Component
 		}
 	};
 
-	using Physics = kult::component<'phy', PhysicsData>;
+	using Physics = kult::component<0x706879 /* phy */, PhysicsData>;
 }
