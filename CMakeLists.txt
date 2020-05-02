@@ -5,6 +5,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+list(APPEND EXTRA_LIBS user32 gdi32 winmm imm32 ole32 oleaut32 version uuid advapi32 shell32)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  list(APPEND EXTRA_LIBS vcruntime)
+endif()
+
 include_directories(include)
 include_directories(external/glew/include)
 include_directories(external/openal/include)
@@ -79,7 +84,9 @@ target_link_libraries(main PRIVATE glm)
 
 # SDL
 add_subdirectory(external/SDL EXCLUDE_FROM_ALL)
-target_link_libraries(main PRIVATE mingw32)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_link_libraries(main PRIVATE mingw32)
+endif()
 target_link_libraries(main PRIVATE SDL2main)
 target_link_libraries(main PRIVATE SDL2)
 
