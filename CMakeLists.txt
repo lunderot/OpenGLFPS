@@ -9,6 +9,9 @@ list(APPEND EXTRA_LIBS user32 gdi32 winmm imm32 ole32 oleaut32 version uuid adva
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   list(APPEND EXTRA_LIBS vcruntime)
 endif()
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_link_libraries(main PRIVATE mingw32)
+endif()
 
 include_directories(include)
 include_directories(external/glew/include)
@@ -84,9 +87,6 @@ target_link_libraries(main PRIVATE glm)
 
 # SDL
 add_subdirectory(external/SDL EXCLUDE_FROM_ALL)
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_link_libraries(main PRIVATE mingw32)
-endif()
 target_link_libraries(main PRIVATE SDL2main)
 target_link_libraries(main PRIVATE SDL2)
 
