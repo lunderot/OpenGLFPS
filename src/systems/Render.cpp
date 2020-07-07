@@ -42,7 +42,7 @@ namespace Systems
 			auto& renderData = get<Component::Render>(id);
 			auto& positionData = get<Component::Position>(id);
 
-			glm::mat4 model;
+			glm::mat4 model = glm::mat4(1.0);
 			model = glm::translate(model, positionData.pos);
 			model *= glm::mat4_cast(positionData.rot);
 			model = glm::scale(model, positionData.scale);

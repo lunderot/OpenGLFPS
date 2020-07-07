@@ -9,9 +9,6 @@ list(APPEND EXTRA_LIBS user32 gdi32 winmm imm32 ole32 oleaut32 version uuid adva
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   list(APPEND EXTRA_LIBS vcruntime)
 endif()
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_link_libraries(main PRIVATE mingw32)
-endif()
 
 include_directories(include)
 include_directories(external/glew/include)
@@ -72,6 +69,10 @@ add_executable(
 	include/systems/Physics.h
 	include/systems/Render.h
 )
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_link_libraries(main PRIVATE mingw32)
+endif()
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

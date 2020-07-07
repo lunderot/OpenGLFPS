@@ -46,7 +46,6 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	sceneManager.Get("floor.txt");
 }
 
-
 Application::~Application()
 {
 	camera.purge();
