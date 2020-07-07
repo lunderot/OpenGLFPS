@@ -136,6 +136,7 @@ namespace AssetManager
 		{
 			glAttachShader(program, shader);
 		}
+
 		shaders.push_back(shader = CreateShader(content, GL_FRAGMENT_SHADER, "<<<FS", "FS>>>"));
 		if (shader != 0)
 		{

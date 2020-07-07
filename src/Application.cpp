@@ -68,7 +68,6 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
-
 Application::~Application()
 {
 	camera.purge();

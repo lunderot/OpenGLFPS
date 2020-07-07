@@ -14,5 +14,5 @@ namespace Component
 		}
 	};
 
-	using Freelook = kult::component<'look', FreelookData>;
+	using Freelook = kult::component<0x6c6f6f6b /* look */, FreelookData>;
 }

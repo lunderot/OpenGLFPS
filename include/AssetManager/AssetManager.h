@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <fstream>
+#include <vector>
 
 #include "miniz.h"
 
@@ -54,7 +55,7 @@ namespace AssetManager
 	T* AssetManager<T, U>::Get(const std::string& name)
 	{
 		T* asset = nullptr;
-		std::map<std::string, T*>::iterator it = assets.find(name);
+		typename std::map<std::string, T*>::iterator it = assets.find(name);
 		if (it != assets.end())
 		{
 			//Return the asset if it is already loaded
@@ -80,7 +81,7 @@ namespace AssetManager
 		mz_zip_reader_file_stat(&archive, id, &file_stat);
 		
 		filedata.resize(file_stat.m_uncomp_size);
-		auto result = mz_zip_reader_extract_to_mem(&archive, file_stat.m_file_index, filedata.data(), filedata.capacity(), 0);
+		mz_zip_reader_extract_to_mem(&archive, file_stat.m_file_index, filedata.data(), filedata.capacity(), 0);
 
 		if (!alreadyLoaded)
 		{

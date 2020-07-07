@@ -1,6 +1,7 @@
 #include "System.h"
 
-System::System(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[])
+System::System(glm::uvec2 screenSize, const std::string& title, int, char*[]):
+	event{0}
 {
 	this->screenSize = screenSize;
 	this->running = true;
@@ -46,7 +47,6 @@ System::System(glm::uvec2 screenSize, const std::string& title, int argc, char* 
 
 
 	//Initialize OpenAL
-	alGetError();
 	alDevice = alcOpenDevice(NULL);
 	if (!alDevice)
 	{
