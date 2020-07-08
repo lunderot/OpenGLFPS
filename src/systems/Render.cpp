@@ -69,13 +69,9 @@ namespace Systems
 		glm::vec3 up = cameraPositionData.rot * glm::vec3(0, 0, 1);
 		glm::mat4 view = glm::lookAt(cameraPositionData.pos, cameraPositionData.pos + lookDirection, up);
 
-		glm::mat4 model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(8, 0, 2));
-
 		shader->Use();
 		shader->SetUniform("projview", projection * view);
 		shader->SetUniform("campos", cameraPositionData.pos);
-		shader->SetUniform("model", model);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -84,6 +80,12 @@ namespace Systems
 		glBindTexture(GL_TEXTURE_2D, texture);
 
 		glBindVertexArray(vao);
-		glDrawArrays(GL_LINES, 0, 2);
+		for (auto& id : join<Component::Position, Component::Particle>()) {
+			auto& positionData = get<Component::Position>(id);
+			glm::mat4 model = glm::mat4(1.0);
+			model = glm::translate(model, positionData.pos);
+			shader->SetUniform("model", model);
+			glDrawArrays(GL_LINES, 0, 2);
+		}
 	}
 }

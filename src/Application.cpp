@@ -66,6 +66,23 @@ Application::Application(glm::uvec2 screenSize, const std::string& title, int ar
 	GLint posAttrib = 0;
 	glEnableVertexAttribArray(posAttrib);
 	glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	kult::entity laser;
+	kult::add<Component::Position>(laser) = {
+		glm::vec3(8, 0, 2)
+	};
+
+	kult::add<Component::Particle>(laser) = {
+		Component::ParticleData::Type::LASER
+	};
+	kult::entity laser2;
+	kult::add<Component::Position>(laser2) = {
+		glm::vec3(8, 3, 2)
+	};
+
+	kult::add<Component::Particle>(laser2) = {
+		Component::ParticleData::Type::LASER
+	};
 }
 
 Application::~Application()
