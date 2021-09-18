@@ -71,7 +71,7 @@ namespace AssetManager
 
 	GLuint Shader::CreateShader(const std::string& content, GLenum shaderType, const std::string& begin, const std::string& end)
 	{
-		size_t first, last;
+		std::size_t first, last;
 		GLuint shader = 0;
 		first = content.find(begin);
 		last = content.find(end);
@@ -83,7 +83,7 @@ namespace AssetManager
 			shader = glCreateShader(shaderType);
 
 			const GLchar* shaderSource[1] = { content.data() + first };
-			GLint shaderSourceLength[1] = { last - first };
+			GLint shaderSourceLength[1] = { static_cast<GLint>(last - first) };
 
 			glShaderSource(shader, 1, shaderSource, shaderSourceLength);
 			glCompileShader(shader);

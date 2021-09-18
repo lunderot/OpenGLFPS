@@ -7,9 +7,9 @@ namespace Component
 {
 	struct PositionData
 	{
-		glm::vec3 pos = glm::vec3(0, 0, 0);
-		glm::quat rot = glm::quat(1, 0, 0, 0);
-		glm::vec3 scale = glm::vec3(1, 1, 1);
+		glm::vec3 pos;
+		glm::quat rot;
+		glm::vec3 scale;
 
 		template<typename T> friend T&operator<<(T &os, const PositionData &self) {
 			return os << "(x:" << self.pos.x << ",y:" << self.pos.y << ",z:" << self.pos.z << ",rx:" << self.rot.x << ",ry : " << self.rot.y << ",rz : " << self.rot.z << ")", os;
