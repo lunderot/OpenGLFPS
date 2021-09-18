@@ -1,0 +1,1 @@
+for /d %%i in (*) do 7z u -mx=9 -- %%i.zip .\%%i\*

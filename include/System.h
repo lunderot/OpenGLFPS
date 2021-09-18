@@ -1,12 +1,20 @@
 #pragma once
 
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 #include <algorithm>
 
-#include <gl\glew.h>
-#include <SDL.h>
-#include <glm\glm.hpp>
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+
+#ifdef _WIN32
+	#include <SDL.h>
+#else
+	#include <SDL2/SDL.h>
+#endif // _WIN32
+
+#include "AL/al.h"
+#include "AL/alc.h"
 
 class System
 {
@@ -16,6 +24,9 @@ private:
 
 	SDL_Window* window;
 	SDL_GLContext context;
+
+	ALCdevice* alDevice;
+	ALCcontext* alContext;
 
 	SDL_Event event;
 	

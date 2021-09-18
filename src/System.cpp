@@ -1,6 +1,7 @@
 #include "System.h"
 
-System::System(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[])
+System::System(glm::uvec2 screenSize, const std::string& title, int, char*[]):
+	event{0}
 {
 	this->screenSize = screenSize;
 	this->running = true;
@@ -11,7 +12,7 @@ System::System(glm::uvec2 screenSize, const std::string& title, int argc, char* 
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
 	//Create window
@@ -43,10 +44,34 @@ System::System(glm::uvec2 screenSize, const std::string& title, int argc, char* 
 	}
 	//Enable depth test
 	glEnable(GL_DEPTH_TEST);
+
+
+	//Initialize OpenAL
+	alDevice = alcOpenDevice(NULL);
+	if (!alDevice)
+	{
+		throw std::runtime_error("alcOpenDevice failed");
+	}
+	//alGetError();
+	alContext = alcCreateContext(alDevice, NULL);
+	if (!alcMakeContextCurrent(alContext))
+	{
+		throw std::runtime_error("alcMakeContextCurrent failed");
+	}
+
+	if (alGetError() != AL_NO_ERROR)
+	{
+		throw std::runtime_error("OpenAL failed");
+	}
 }
 
 System::~System()
 {
+	alDevice = alcGetContextsDevice(alContext);
+	alcMakeContextCurrent(NULL);
+	alcDestroyContext(alContext);
+	alcCloseDevice(alDevice);
+
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }

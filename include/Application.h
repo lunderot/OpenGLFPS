@@ -1,12 +1,18 @@
 #pragma once
 
 #include "System.h"
-#include "Shader.h"
-#include "AssetManager.h"
-#include "Mesh.h"
-#include "Texture.h"
+#include "AssetManager/Shader.h"
+#include "AssetManager/AssetManager.h"
+#include "AssetManager/Mesh.h"
+#include "AssetManager/Texture.h"
+#include "AssetManager/Config.h"
+#include "AssetManager/Scene.h"
+#include "AssetManager/Audio.h"
+
+#include "AudioPlayer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 
 #include <kult.hpp>
@@ -14,16 +20,18 @@
 class Application: public System
 {
 private:
-	AssetManager<Mesh> meshManager;
-	AssetManager<Shader> shaderManager;
-	AssetManager<Texture> textureManager;
-
-	Shader* shader;
+	AssetManager::AssetManager<AssetManager::Mesh> meshManager;
+	AssetManager::AssetManager<AssetManager::Shader> shaderManager;
+	AssetManager::AssetManager<AssetManager::Texture> textureManager;
+	AssetManager::AssetManager<AssetManager::Config> configManager;
+	AssetManager::Scene::UserData sceneManagerUserData;
+	AssetManager::AssetManager<AssetManager::Scene, AssetManager::Scene::UserData> sceneManager;
+	AudioPlayer audioPlayer;
+	AssetManager::Shader* shader;
 
 	kult::entity camera;
 	kult::entity cube;
-	kult::entity tree;
-	kult::entity floor;
+	kult::entity light;
 public:
 	Application(glm::uvec2 screenSize, const std::string& title, int argc, char* argv[]);
 	virtual ~Application();

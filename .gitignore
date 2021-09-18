@@ -18,6 +18,7 @@
 x64/
 x86/
 build/
+build2/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -194,3 +195,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+*.opendb
+
+#Ignore linux binary
+OpenGLFPS
