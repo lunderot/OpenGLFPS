@@ -9,7 +9,7 @@
 	url = https://github.com/r-lyeh/kult.git
 [submodule "external/glew"]
 	path = external/glew
-	url = https://github.com/nigels-com/glew.git
+	url = https://github.com/Perlmint/glew-cmake.git
 [submodule "external/openal"]
 	path = external/openal
 	url = https://github.com/kcat/openal-soft

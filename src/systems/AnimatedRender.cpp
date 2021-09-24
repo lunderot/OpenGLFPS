@@ -37,16 +37,16 @@ namespace Systems
 		current.resize(prev.size());
 		float a = (renderData.time - prev[0].time) / (next[0].time - prev[0].time);
 		
-		for (int i = 0; i < current.size(); i++)
+		for (std::size_t i = 0; i < current.size(); i++)
 		{
 			current[i].translation = glm::mix(prev[i].translation, next[i].translation, a);
 			current[i].scale = glm::mix(prev[i].scale, next[0].scale, a);
 			current[i].rotation = glm::slerp(prev[i].rotation, next[i].rotation, a);
 		}
 
-		for (int i = 0; i < current.size(); i++)
+		for (std::size_t i = 0; i < current.size(); i++)
 		{
-			glm::mat4 bone;
+			glm::mat4 bone(1.0);
 			bone = glm::translate(bone, current[i].translation);
 			bone *= glm::mat4_cast(current[i].rotation);
 			bone = glm::scale(bone, current[i].scale);
@@ -54,7 +54,7 @@ namespace Systems
 		}
 
 		auto hierarchy = renderData.animation->GetHierarchy();
-		for (int i = 0; i < bones.size(); i++)
+		for (std::size_t i = 0; i < bones.size(); i++)
 		{
 			if (hierarchy[i] != -1)
 			{
@@ -66,7 +66,6 @@ namespace Systems
 	void AnimatedRender(AssetManager::Shader* shader, kult::entity camera, glm::ivec2 screenSize, glm::f32 fov, glm::f32 near, glm::f32 far, glm::f32 deltaTime)
 	{
 		auto& cameraPositionData = get<Component::Position>(camera);
-		auto& cameraData = get<Component::Freelook>(camera);
 
 		glm::mat4 projection = glm::perspective(glm::radians(fov), (glm::f32)screenSize.x / screenSize.y, near, far);
 		glm::vec3 lookDirection = cameraPositionData.rot * glm::vec3(1, 0, 0);
@@ -81,7 +80,7 @@ namespace Systems
 			auto& renderData = get<Component::AnimatedRender>(id);
 			auto& positionData = get<Component::Position>(id);
 
-			glm::mat4 model;
+			glm::mat4 model(1.0);
 			model = glm::translate(model, positionData.pos);
 			model *= glm::mat4_cast(positionData.rot);
 			model = glm::scale(model, positionData.scale);

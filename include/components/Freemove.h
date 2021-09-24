@@ -13,5 +13,5 @@ namespace Component
 		}
 	};
 
-	using Freemove = kult::component<'move', FreemoveData>;
+	using Freemove = kult::component<0x6d6f7665 /* move */, FreemoveData>;
 }

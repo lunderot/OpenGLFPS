@@ -6,6 +6,8 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
+#include "Util.h"
+
 namespace AssetManager
 {
 	class Mesh
@@ -22,15 +24,15 @@ namespace AssetManager
 		GLuint vao;
 		glm::u32 vertexCount;
 
-		void LoadMesh(std::istream* buffer, std::vector<Vertex>& out);
+		void LoadMesh(unsigned char* data, size_t size, std::vector<Vertex>& out);
 	public:
-		Mesh(std::istream* buffer, const std::string& filename, const void* userData);
+		Mesh(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		~Mesh();
 		GLuint GetVBO() const;
 		GLuint GetVAO() const;
 		glm::u32 GetVertexCount() const;
 
-		void Load(std::istream* buffer, const std::string& filename, const void* userData);
+		void Load(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		void Unload();
 	};
 }

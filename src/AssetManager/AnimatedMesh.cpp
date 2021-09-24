@@ -2,9 +2,9 @@
 
 namespace AssetManager
 {
-	AnimatedMesh::AnimatedMesh(std::istream* buffer, const std::string& filename, const void* userData)
+	AnimatedMesh::AnimatedMesh(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
-		Load(buffer, filename, userData);
+		Load(data, size, filename, userData);
 	}
 
 	AnimatedMesh::~AnimatedMesh()
@@ -12,8 +12,11 @@ namespace AssetManager
 		Unload();
 	}
 
-	void AnimatedMesh::LoadMesh(std::istream* buffer, std::vector<Vertex>& out)
+	void AnimatedMesh::LoadMesh(unsigned char* data, size_t size, std::vector<Vertex>& out)
 	{
+		MemoryBuffer buf(data, size);
+		std::istream buffer(&buf);
+
 		std::vector<glm::u32> vertexIndices, uvIndices, normalIndices, boneIndices, weightIndices;
 		std::vector<glm::vec3> vertices;
 		std::vector<glm::vec2> uvs;
@@ -27,39 +30,39 @@ namespace AssetManager
 			0.0f, 1.0f, 0.0f
 			);
 
-		while (!buffer->eof())
+		while (!buffer.eof())
 		{
 			std::string command;
-			*buffer >> command;
+			buffer >> command;
 			if (command == "v")
 			{
 				glm::vec3 vertex;
-				*buffer >> vertex.x >> vertex.y >> vertex.z;
+				buffer >> vertex.x >> vertex.y >> vertex.z;
 				vertices.push_back(vertex*mat);
 			}
 			else if (command == "vt")
 			{
 				glm::vec2 uv;
-				*buffer >> uv.x >> uv.y;
+				buffer >> uv.x >> uv.y;
 				uv.y *= -1.0f;
 				uvs.push_back(uv);
 			}
 			else if (command == "vn")
 			{
 				glm::vec3 normal;
-				*buffer >> normal.x >> normal.y >> normal.z;
+				buffer >> normal.x >> normal.y >> normal.z;
 				normals.push_back(normal*mat);
 			}
 			else if (command == "w")
 			{
 				glm::vec4 w;
-				*buffer >> w.x >> w.y >> w.z >> w.w;
+				buffer >> w.x >> w.y >> w.z >> w.w;
 				weights.push_back(w);
 			}
 			else if (command == "wi")
 			{
 				glm::uvec4 w;
-				*buffer >> w.x >> w.y >> w.z >> w.w;
+				buffer >> w.x >> w.y >> w.z >> w.w;
 				boneIndex.push_back(w);
 			}
 			else if (command == "f")
@@ -70,13 +73,13 @@ namespace AssetManager
 				
 				for (int i = 0; i < 3; i++)
 				{
-					*buffer >> vertexIndex[i] >> padding >> uvIndex[i] >> padding >> normalIndex[i] >> padding >> indexIndex[i] >> padding >> weightIndex[i];
+					buffer >> vertexIndex[i] >> padding >> uvIndex[i] >> padding >> normalIndex[i] >> padding >> indexIndex[i] >> padding >> weightIndex[i];
 					count++;
 				}
-				char next = (*buffer).peek();
-				if (!(next == '\r' || next == '\n'))
+				char next = (buffer).peek();
+				if (!(buffer.eof() || next == '\r' || next == '\n'))
 				{
-					*buffer >> vertexIndex[3] >> padding >> uvIndex[3] >> padding >> normalIndex[3] >> padding >> indexIndex[3] >> padding >> weightIndex[3];
+					buffer >> vertexIndex[3] >> padding >> uvIndex[3] >> padding >> normalIndex[3] >> padding >> indexIndex[3] >> padding >> weightIndex[3];
 					count++;
 				}
 				
@@ -109,7 +112,7 @@ namespace AssetManager
 			}
 			else //Unknown command
 			{
-				std::getline(*buffer, command);
+				std::getline(buffer, command);
 			}
 		}
 
@@ -140,10 +143,10 @@ namespace AssetManager
 		return vertexCount;
 	}
 
-	void AnimatedMesh::Load(std::istream* buffer, const std::string& filename, const void* userData)
+	void AnimatedMesh::Load(unsigned char* data, size_t size, const std::string& filename, const void* userData)
 	{
 		std::vector<Vertex> out;
-		LoadMesh(buffer, out);
+		LoadMesh(data, size, out);
 
 		//Generate vertex buffer and vertex array object
 		glGenBuffers(1, &vbo);

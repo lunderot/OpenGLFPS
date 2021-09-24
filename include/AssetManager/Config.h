@@ -12,17 +12,17 @@ namespace AssetManager
 	private:
 		union
 		{
-			char data[64];
+			char stringValue[64];
 			float floatValue;
 			int integerValue;
 		};
 	public:
-		Config(std::istream* buffer, const std::string& filename, const void* userData);
+		Config(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 		~Config();
 
 		std::string GetString()
 		{
-			return std::string(data);
+			return std::string(stringValue);
 		}
 
 		float GetFloat()
@@ -35,7 +35,7 @@ namespace AssetManager
 			return integerValue;
 		}
 
-		void Load(std::istream* buffer, const std::string& filename, const void* userData);
+		void Load(unsigned char* data, size_t size, const std::string& filename, const void* userData);
 
 		void Unload();
 	};

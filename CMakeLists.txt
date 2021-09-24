@@ -1,35 +1,31 @@
 cmake_minimum_required(VERSION 3.8)
-cmake_policy(VERSION 2.6)
 project(OpenGLFPS)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-find_package(OpenGL REQUIRED)
 
-add_subdirectory(external)
+list(APPEND EXTRA_LIBS user32 gdi32 winmm imm32 ole32 oleaut32 version uuid advapi32 shell32)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  list(APPEND EXTRA_LIBS vcruntime)
+endif()
 
-set(CMAKE_CXX_STANDARD 11)
-
-include_directories(
-	include
-	"${PROJECT_SOURCE_DIR}/external/glew/include"
-	"${PROJECT_SOURCE_DIR}/external/glm"
-	"${PROJECT_SOURCE_DIR}/external/kult"
-	"${PROJECT_SOURCE_DIR}/external/SDL/include"
-	"${PROJECT_SOURCE_DIR}/external/openal/include"
-	"${PROJECT_SOURCE_DIR}/external/stb"
-	)
+include_directories(include)
+include_directories(external/glew/include)
+include_directories(external/openal/include)
+include_directories(external/stb)
+include_directories(external/kult)
+include_directories(external/miniz)
+include_directories(external/glm/glm)
 
 add_executable(
-	OpenGLFPS
+	main
 	
 	src/Application.cpp
 	src/AssetManager
 	src/main.cpp
 	src/System.cpp
 	src/AudioPlayer.cpp
-	src/systems
 	
 	src/AssetManager/Config.cpp
 	src/AssetManager/Mesh.cpp
@@ -47,14 +43,60 @@ add_executable(
 	src/systems/AnimatedRender.cpp
 	src/systems/Listener.cpp
 	
+	external/miniz/miniz.c
+	
+	include/Application.h
+	include/AssetManager
+	include/AudioPlayer.h
+	include/components
+	include/System.h
+	include/systems
+	include/AssetManager/AssetManager.h
+	include/AssetManager/Audio.h
+	include/AssetManager/Config.h
+	include/AssetManager/Mesh.h
+	include/AssetManager/Scene.h
+	include/AssetManager/Shader.h
+	include/AssetManager/Texture.h
+	include/AssetManager/Util.h
+	include/components/Freelook.h
+	include/components/Freemove.h
+	include/components/Light.h
+	include/components/Listener.h
+	include/components/Physics.h
+	include/components/Position.h
+	include/components/Render.h
+	include/systems/Freelook.h
+	include/systems/Freemove.h
+	include/systems/Listener.h
+	include/systems/Physics.h
+	include/systems/Render.h
 )
 
-target_link_libraries(
-	OpenGLFPS
-	
-	${OPENGL_LIBRARIES}
-	glew
-	SDL2main
-	SDL2
-	OpenAL32
-)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_link_libraries(main PRIVATE mingw32)
+endif()
+
+set_property(TARGET main PROPERTY CXX_STANDARD 11)
+target_compile_options(main PRIVATE -Wall)
+
+# glew
+add_definitions(-DGLEW_STATIC)
+add_subdirectory(external/glew EXCLUDE_FROM_ALL)
+target_link_libraries(main PRIVATE libglew_static)
+
+# glm
+add_subdirectory(external/glm EXCLUDE_FROM_ALL)
+target_link_libraries(main PRIVATE glm)
+
+# SDL
+add_subdirectory(external/SDL EXCLUDE_FROM_ALL)
+target_link_libraries(main PRIVATE SDL2main)
+target_link_libraries(main PRIVATE SDL2)
+
+# OpenAL
+OPTION(ALSOFT_EXAMPLES "al-examples" OFF)
+OPTION(ALSOFT_UTILITY "al-util" OFF)
+OPTION(ALSOFT_TEST "al-test" OFF)
+add_subdirectory(external/openal EXCLUDE_FROM_ALL)
+target_link_libraries(main PRIVATE OpenAL)

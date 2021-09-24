@@ -16,5 +16,5 @@ namespace Component
 		}
 	};
 
-	using Render = kult::component<'rend', RenderData>;
+	using Render = kult::component<0x72656e64 /* rend */, RenderData>;
 }

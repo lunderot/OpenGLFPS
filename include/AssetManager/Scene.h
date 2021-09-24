@@ -11,6 +11,8 @@
 
 #include "kult.hpp"
 
+#include "Util.h"
+
 namespace AssetManager
 {
 	class Scene
@@ -24,10 +26,10 @@ namespace AssetManager
 	private:
 		std::vector<kult::entity> entities;
 	public:
-		Scene(std::istream* buffer, const std::string& filename, const UserData* userData);
+		Scene(unsigned char* data, size_t size, const std::string& filename, const UserData* userData);
 		~Scene();
 
-		void Load(std::istream* buffer, const std::string& filename, const UserData* userData);
+		void Load(unsigned char* data, size_t size, const std::string& filename, const UserData* userData);
 		void Unload();
 	};
 }
